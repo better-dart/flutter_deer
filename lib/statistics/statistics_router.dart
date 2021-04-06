@@ -12,12 +12,12 @@ class StatisticsRouter implements IRouterProvider{
   static String goodsStatisticsPage = '/statistics/goods';
   
   @override
-  void initRouter(Router router) {
+  void initRouter(FluroRouter router) {
     router.define(orderStatisticsPage, handler: Handler(handlerFunc: (_, params) {
       final int index = int.parse(params['index']?.first);
       return OrderStatisticsPage(index);
     }));
-    router.define(goodsStatisticsPage, handler: Handler(handlerFunc: (_, __) => GoodsStatisticsPage()));
+    router.define(goodsStatisticsPage, handler: Handler(handlerFunc: (_, __) => const GoodsStatisticsPage()));
   }
   
 }

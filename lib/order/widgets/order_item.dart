@@ -5,7 +5,7 @@ import 'package:flutter_deer/order/widgets/pay_type_dialog.dart';
 import 'package:flutter_deer/res/resources.dart';
 import 'package:flutter_deer/routers/fluro_navigator.dart';
 import 'package:flutter_deer/util/theme_utils.dart';
-import 'package:flutter_deer/util/toast.dart';
+import 'package:flutter_deer/util/toast_utils.dart';
 import 'package:flutter_deer/util/other_utils.dart';
 import 'package:flutter_deer/widgets/my_card.dart';
 
@@ -44,13 +44,13 @@ class OrderItem extends StatelessWidget {
 
   Widget _buildContent(BuildContext context) {
     final TextStyle textTextStyle = Theme.of(context).textTheme.bodyText2.copyWith(fontSize: Dimens.font_sp12);
-    bool isDark = context.isDark;
+    final bool isDark = context.isDark;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Row(
           children: <Widget>[
-            Expanded(
+            const Expanded(
               child: Text('15000000000（郭李）'),
             ),
             Text(
@@ -74,7 +74,7 @@ class OrderItem extends StatelessWidget {
           text: TextSpan(
             style: textTextStyle,
             children: <TextSpan>[
-              TextSpan(text: '清凉一度抽纸'),
+              const TextSpan(text: '清凉一度抽纸'),
               TextSpan(text: '  x1', style: Theme.of(context).textTheme.subtitle2),
             ],
           ),
@@ -84,7 +84,7 @@ class OrderItem extends StatelessWidget {
           text: TextSpan(
             style: textTextStyle,
             children: <TextSpan>[
-              TextSpan(text: '清凉一度抽纸'),
+              const TextSpan(text: '清凉一度抽纸'),
               TextSpan(text: '  x2', style: Theme.of(context).textTheme.subtitle2),
             ],
           ),
@@ -103,8 +103,8 @@ class OrderItem extends StatelessWidget {
                 ),
               ),
             ),
-            Text(
-              '2018.02.05 10:00',
+            const Text(
+              '2021.02.05 10:00',
               style: TextStyles.textSize12,
             ),
           ],
@@ -121,7 +121,7 @@ class OrderItem extends StatelessWidget {
               bgColor: isDark ? Colours.dark_material_bg : Colours.bg_gray,
               onTap: () => _showCallPhoneDialog(context, '15000000000'),
             ),
-            Expanded(
+            const Expanded(
               child: Gaps.empty,
             ),
             OrderItemButton(
@@ -162,17 +162,20 @@ class OrderItem extends StatelessWidget {
           title: const Text('提示'),
           content: Text('是否拨打：$phone ?'),
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               onPressed: () => NavigatorUtils.goBack(context),
               child: const Text('取消'),
             ),
-            FlatButton(
+            TextButton(
               onPressed: () {
                 Utils.launchTelURL(phone);
                 NavigatorUtils.goBack(context);
               },
-              textColor: Theme.of(context).errorColor,
-              child: const Text('拨打'),
+              style: ButtonStyle(
+                // 按下高亮颜色
+                overlayColor: MaterialStateProperty.all<Color>(Theme.of(context).errorColor.withOpacity(0.2)),
+              ),
+              child: Text('拨打', style: TextStyle(color: Theme.of(context).errorColor),),
             ),
           ],
         );

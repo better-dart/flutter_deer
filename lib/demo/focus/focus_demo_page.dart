@@ -33,11 +33,11 @@ class _FocusDemoPageState extends State<FocusDemoPage> {
         title: Text(widget.title),
       ),
       body: Column(
-        children: [
+        children: <Widget>[
           TextField(
             focusNode: _focusNode,
           ),
-          FlatButton(
+          OutlinedButton(
             child: const Text('打印FocusTree'),
             onPressed: () {
               // 关闭软键盘四种方式
@@ -51,7 +51,7 @@ class _FocusDemoPageState extends State<FocusDemoPage> {
               });
             },
           ),
-          FlatButton(
+          ElevatedButton(
             child: const Text('Push TestPage'),
             onPressed: () {
               Navigator.push<FocusDemoPage>(

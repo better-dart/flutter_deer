@@ -6,7 +6,7 @@ import 'package:flutter_deer/goods/widgets/goods_sort_menu.dart';
 import 'package:flutter_deer/res/resources.dart';
 import 'package:flutter_deer/routers/fluro_navigator.dart';
 import 'package:flutter_deer/util/theme_utils.dart';
-import 'package:flutter_deer/util/toast.dart';
+import 'package:flutter_deer/util/toast_utils.dart';
 import 'package:flutter_deer/widgets/load_image.dart';
 import 'package:flutter_deer/widgets/popup_window.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +16,9 @@ import '../goods_router.dart';
 
 /// design/4商品/index.html
 class GoodsPage extends StatefulWidget {
+
+  const GoodsPage({Key key}) : super(key: key);
+
   @override
   _GoodsPageState createState() => _GoodsPageState();
 }
@@ -114,7 +117,7 @@ class _GoodsPageState extends State<GoodsPage> with SingleTickerProviderStateMix
             Gaps.vGap24,
             Container(
               // 隐藏点击效果
-              padding: EdgeInsets.only(left: 16.0),
+              padding: const EdgeInsets.only(left: 16.0),
               color: context.backgroundColor,
               child: TabBar(
                 onTap: (index) {
@@ -131,10 +134,10 @@ class _GoodsPageState extends State<GoodsPage> with SingleTickerProviderStateMix
                 unselectedLabelColor: context.isDark ? Colours.text_gray : Colours.text,
                 labelColor: Theme.of(context).primaryColor,
                 indicatorPadding: const EdgeInsets.only(right: 98.0 - 36.0),
-                tabs: <Widget>[
-                  const _TabView('在售', 0),
-                  const _TabView('待售', 1),
-                  const _TabView('下架', 2),
+                tabs: const <Widget>[
+                  _TabView('在售', 0),
+                  _TabView('待售', 1),
+                  _TabView('下架', 2),
                 ],
               ),
             ),
@@ -196,8 +199,8 @@ class _GoodsPageState extends State<GoodsPage> with SingleTickerProviderStateMix
   void _showAddMenu() {
     final RenderBox button = _addKey.currentContext.findRenderObject() as RenderBox;
     final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
-    var a =  button.localToGlobal(Offset(button.size.width - 8.0, button.size.height - 12.0), ancestor: overlay);
-    var b =  button.localToGlobal(button.size.bottomLeft(Offset(0, - 12.0)), ancestor: overlay);
+    final a =  button.localToGlobal(Offset(button.size.width - 8.0, button.size.height - 12.0), ancestor: overlay);
+    final b =  button.localToGlobal(button.size.bottomLeft(const Offset(0, - 12.0)), ancestor: overlay);
     final RelativeRect position = RelativeRect.fromRect(
       Rect.fromPoints(a, b),
       Offset.zero & overlay.size,
@@ -222,34 +225,40 @@ class _GoodsPageState extends State<GoodsPage> with SingleTickerProviderStateMix
           SizedBox(
             width: 120.0,
             height: 40.0,
-            child: FlatButton.icon(
-              textColor: Theme.of(context).textTheme.bodyText2.color,
+            child: TextButton.icon(
               onPressed: () {
                 NavigatorUtils.push(context, '${GoodsRouter.goodsEditPage}?isAdd=true&isScan=true', replace: true);
               },
-              color: backgroundColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(8.0), topRight: Radius.circular(8.0)),
-              ),
               icon: LoadAssetImage('goods/scanning', width: 16.0, height: 16.0, color: _iconColor,),
-              label: const Text('扫码添加')
+              label: const Text('扫码添加'),
+              style: TextButton.styleFrom(
+                primary: Theme.of(context).textTheme.bodyText2.color,
+                onSurface: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.12),
+                backgroundColor: backgroundColor,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(8.0), topRight: Radius.circular(8.0)),
+                ),
+              ),
             ),
           ),
           Container(width: 120.0, height: 0.6, color: Colours.line),
           SizedBox(
             width: 120.0,
             height: 40.0,
-            child: FlatButton.icon(
-              textColor: Theme.of(context).textTheme.bodyText2.color,
-              color: backgroundColor,
+            child: TextButton.icon(
               onPressed: () {
                 NavigatorUtils.push(context, '${GoodsRouter.goodsEditPage}?isAdd=true', replace: true);
               },
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(8.0), bottomRight: Radius.circular(8.0)),
-              ),
               icon: LoadAssetImage('goods/add2', width: 16.0, height: 16.0, color: _iconColor,),
-              label: const Text('添加商品')
+              label: const Text('添加商品'),
+              style: TextButton.styleFrom(
+                primary: Theme.of(context).textTheme.bodyText2.color,
+                onSurface: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.12),
+                backgroundColor: backgroundColor,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(8.0), bottomRight: Radius.circular(8.0)),
+                ),
+              ),
             ),
           ),
         ],
@@ -284,7 +293,7 @@ class _TabView extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 1.0),
                     child: Text(' (${provider.goodsCountList[index]}件)',
-                      style: TextStyle(fontSize: Dimens.font_sp12),
+                      style: const TextStyle(fontSize: Dimens.font_sp12),
                     ),
                   ),
                 );

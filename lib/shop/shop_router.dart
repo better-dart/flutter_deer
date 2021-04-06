@@ -17,12 +17,12 @@ class ShopRouter implements IRouterProvider{
   static String addressSelectPage = '/shop/addressSelect';
   
   @override
-  void initRouter(Router router) {
-    router.define(shopPage, handler: Handler(handlerFunc: (_, __) => ShopPage()));
-    router.define(shopSettingPage, handler: Handler(handlerFunc: (_, __) => ShopSettingPage()));
-    router.define(messagePage, handler: Handler(handlerFunc: (_, __) => MessagePage()));
-    router.define(freightConfigPage, handler: Handler(handlerFunc: (_, __) => FreightConfigPage()));
-    router.define(addressSelectPage, handler: Handler(handlerFunc: (_, __) => AddressSelectPage()));
+  void initRouter(FluroRouter router) {
+    router.define(shopPage, handler: Handler(handlerFunc: (_, __) => const ShopPage()));
+    router.define(shopSettingPage, handler: Handler(handlerFunc: (_, __) => const ShopSettingPage()));
+    router.define(messagePage, handler: Handler(handlerFunc: (_, __) => const MessagePage()));
+    router.define(freightConfigPage, handler: Handler(handlerFunc: (_, __) => const FreightConfigPage()));
+    router.define(addressSelectPage, handler: Handler(handlerFunc: (_, __) => const AddressSelectPage()));
   }
   
 }

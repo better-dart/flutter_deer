@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_deer/res/resources.dart';
 import 'package:flutter_deer/util/theme_utils.dart';
+import 'package:flutter_deer/widgets/my_button.dart';
 
 /// 自定义AppBar
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -14,6 +15,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.centerTitle = '',
     this.actionName = '',
     this.backImg = 'assets/images/ic_back_black.png',
+    this.backImgColor,
     this.onPressed,
     this.isBack = true
   }): super(key: key);
@@ -22,6 +24,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final String centerTitle;
   final String backImg;
+  final Color backImgColor;
   final String actionName;
   final VoidCallback onPressed;
   final bool isBack;
@@ -39,7 +42,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     final SystemUiOverlayStyle _overlayStyle = ThemeData.estimateBrightnessForColor(_backgroundColor) == Brightness.dark
         ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark;
 
-    Widget back = isBack ? IconButton(
+    final Widget back = isBack ? IconButton(
       onPressed: () {
         FocusManager.instance.primaryFocus?.unfocus();
         Navigator.maybePop(context);
@@ -48,11 +51,11 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       padding: const EdgeInsets.all(12.0),
       icon: Image.asset(
         backImg,
-        color: ThemeUtils.getIconColor(context),
+        color: backImgColor ?? ThemeUtils.getIconColor(context),
       ),
     ) : Gaps.empty;
 
-    Widget action = actionName.isNotEmpty ? Positioned(
+    final Widget action = actionName.isNotEmpty ? Positioned(
       right: 0.0,
       child: Theme(
         data: Theme.of(context).copyWith(
@@ -61,16 +64,19 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
             minWidth: 60.0,
           ),
         ),
-        child: FlatButton(
-          child: Text(actionName, key: const Key('actionName')),
+        child: MyButton(
+          key: const Key('actionName'),
+          fontSize: Dimens.font_sp14,
+          minWidth: null,
+          text: actionName,
           textColor: context.isDark ? Colours.dark_text : Colours.text,
-          highlightColor: Colors.transparent,
+          backgroundColor: Colors.transparent,
           onPressed: onPressed,
         ),
       ),
     ) : Gaps.empty;
 
-    Widget titleWidget = Semantics(
+    final Widget titleWidget = Semantics(
       namesRoute: true,
       header: true,
       child: Container(

@@ -8,6 +8,9 @@ import 'package:flutter_deer/widgets/my_button.dart';
 
 /// design/6店铺-账户/index.html#artboard5
 class WithdrawalResultPage extends StatefulWidget {
+
+  const WithdrawalResultPage({Key key}) : super(key: key);
+
   @override
   _WithdrawalResultPageState createState() => _WithdrawalResultPageState();
 }
@@ -30,13 +33,13 @@ class _WithdrawalResultPageState extends State<WithdrawalResultPage> {
               height: 80.0,
             ),
             Gaps.vGap12,
-            Text(
+            const Text(
               '提现申请提交失败，请重新提交',
               style: TextStyles.textSize16,
             ),
             Gaps.vGap8,
             Text(
-              '2020-02-21 15:20:10',
+              '2021-02-21 15:20:10',
               style: Theme.of(context).textTheme.subtitle2,
             ),
             Gaps.vGap8,

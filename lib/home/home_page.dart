@@ -6,12 +6,15 @@ import 'package:flutter_deer/order/page/order_page.dart';
 import 'package:flutter_deer/res/resources.dart';
 import 'package:flutter_deer/shop/page/shop_page.dart';
 import 'package:flutter_deer/statistics/page/statistics_page.dart';
-import 'package:flutter_deer/util/double_tap_back_exit_app.dart';
 import 'package:flutter_deer/util/theme_utils.dart';
+import 'package:flutter_deer/widgets/double_tap_back_exit_app.dart';
 import 'package:flutter_deer/widgets/load_image.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
+
+  const Home({Key key}) : super(key: key);
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -40,19 +43,19 @@ class _HomeState extends State<Home> {
     _pageController.dispose();
     super.dispose();
   }
-  
+
   void initData() {
     _pageList = [
-      OrderPage(),
-      GoodsPage(),
-      StatisticsPage(),
-      ShopPage(),
+      const OrderPage(),
+      const GoodsPage(),
+      const StatisticsPage(),
+      const ShopPage(),
     ];
   }
 
   List<BottomNavigationBarItem> _buildBottomNavigationBarItem() {
     if (_list == null) {
-      var _tabImages = const [
+      const _tabImages = [
         [
           LoadAssetImage('home/icon_order', width: _imageSize, color: Colours.unselected_item_color,),
           LoadAssetImage('home/icon_order', width: _imageSize, color: Colours.app_main,),
@@ -72,12 +75,9 @@ class _HomeState extends State<Home> {
       ];
       _list = List.generate(_tabImages.length, (i) {
         return BottomNavigationBarItem(
-            icon: _tabImages[i][0],
-            activeIcon: _tabImages[i][1],
-            title: Padding(
-              padding: const EdgeInsets.only(top: 1.5),
-              child: Text(_appBarTitles[i], key: Key(_appBarTitles[i]),),
-            )
+          icon: _tabImages[i][0],
+          activeIcon: _tabImages[i][1],
+          label: _appBarTitles[i],
         );
       });
     }
@@ -86,7 +86,7 @@ class _HomeState extends State<Home> {
 
   List<BottomNavigationBarItem> _buildDarkBottomNavigationBarItem() {
     if (_listDark == null) {
-      var _tabImagesDark = const [
+      const _tabImagesDark = [
         [
           LoadAssetImage('home/icon_order', width: _imageSize),
           LoadAssetImage('home/icon_order', width: _imageSize, color: Colours.dark_app_main,),
@@ -107,12 +107,9 @@ class _HomeState extends State<Home> {
 
       _listDark = List.generate(_tabImagesDark.length, (i) {
         return BottomNavigationBarItem(
-            icon: _tabImagesDark[i][0],
-            activeIcon: _tabImagesDark[i][1],
-            title: Padding(
-              padding: const EdgeInsets.only(top: 1.5),
-              child: Text(_appBarTitles[i], key: Key(_appBarTitles[i]),),
-            )
+          icon: _tabImagesDark[i][0],
+          activeIcon: _tabImagesDark[i][1],
+          label: _appBarTitles[i],
         );
       });
     }

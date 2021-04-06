@@ -7,6 +7,9 @@ import 'package:sticky_headers/sticky_headers.dart';
 
 /// design/6店铺-账户/index.html#artboard1
 class AccountRecordListPage extends StatefulWidget {
+
+  const AccountRecordListPage({Key key}) : super(key: key);
+
   @override
   _AccountRecordListPageState createState() => _AccountRecordListPageState();
 }
@@ -22,7 +25,7 @@ class _AccountRecordListPageState extends State<AccountRecordListPage> {
         itemCount: 8,
         /// 将item默认合并的语义拆开，自行组合， 另一种方式见 withdrawal_record_list_page.dart
         addSemanticIndexes: false,
-        itemBuilder: (_, index) {
+        itemBuilder: (_, int index) {
           return StickyHeader(
             header: Container(
               alignment: Alignment.centerLeft,
@@ -30,7 +33,7 @@ class _AccountRecordListPageState extends State<AccountRecordListPage> {
               color: ThemeUtils.getStickyHeaderColor(context),
               padding: const EdgeInsets.only(left: 16.0),
               height: 34.0,
-              child: Text('2018/06/0${index + 1}'),
+              child: Text('2021/06/0${index + 1}'),
             ),
             content: _buildItem(index),
           );
@@ -40,7 +43,7 @@ class _AccountRecordListPageState extends State<AccountRecordListPage> {
   }
   
   Widget _buildItem(int index) {
-    var list = List.generate(index + 1, (i) {
+    final List<Container> list = List<Container>.generate(index + 1, (int i) {
       return Container(
         height: 72.0,
         width: double.infinity,
@@ -54,19 +57,21 @@ class _AccountRecordListPageState extends State<AccountRecordListPage> {
           index: index,
           child: Stack(
             children: <Widget>[
-              Text(i % 2 == 0 ? '采购订单结算营收' : '提现'),
+              Text(i.isEven ? '采购订单结算营收' : '提现'),
               Positioned(
                 top: 0.0,
                 right: 0.0,
-                child: Text(i % 2 == 0 ? '+10.00' : '-10.00', style: i % 2 == 0 ? TextStyle(
+                child: Text(i.isEven ? '+10.00' : '-10.00',
+                  style: i.isEven ? TextStyle(
                     color: Theme.of(context).errorColor,
-                    fontWeight: FontWeight.bold
-                ) : TextStyles.textBold14),
+                    fontWeight: FontWeight.bold,
+                  ) : TextStyles.textBold14,
+                ),
               ),
               Positioned(
                 bottom: 0.0,
                 left: 0.0,
-                child: Text(i % 2 == 0 ? '18:20:10' : '08:20:11', style: Theme.of(context).textTheme.subtitle2),
+                child: Text(i.isEven ? '18:20:10' : '08:20:11', style: Theme.of(context).textTheme.subtitle2),
               ),
               Positioned(
                 bottom: 0.0,

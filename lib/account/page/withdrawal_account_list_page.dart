@@ -10,14 +10,17 @@ import '../account_router.dart';
 
 /// design/6店铺-账户/index.html#artboard7
 class WithdrawalAccountListPage extends StatefulWidget {
+
+  const WithdrawalAccountListPage({Key key}) : super(key: key);
+
   @override
   _WithdrawalAccountListPageState createState() => _WithdrawalAccountListPageState();
 }
 
 class _WithdrawalAccountListPageState extends State<WithdrawalAccountListPage> {
   
-  int _selectIndex = 0;
-  List<WithdrawalAccountModel> _list = [];
+  final int _selectIndex = 0;
+  final List<WithdrawalAccountModel> _list = [];
   
   @override
   void initState() {
@@ -37,7 +40,7 @@ class _WithdrawalAccountListPageState extends State<WithdrawalAccountListPage> {
       ),
       body: ListView.separated(
         itemCount: _list.length,
-        separatorBuilder: (_, index) => Divider(height: 0.6),
+        separatorBuilder: (_, index) => const Divider(height: 0.6),
         itemBuilder: (_, index) => _buildItem(index),
       ),
     );

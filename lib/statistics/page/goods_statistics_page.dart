@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_deer/res/resources.dart';
 import 'package:flutter_deer/statistics/widgets/selected_date.dart';
-import 'package:flutter_deer/util/date_utils.dart';
+import 'package:flutter_deer/util/date_utils.dart' as date;
 import 'package:flutter_deer/util/image_utils.dart';
 import 'package:flutter_deer/util/theme_utils.dart';
 import 'package:flutter_deer/widgets/my_app_bar.dart';
@@ -15,6 +15,8 @@ import 'package:flutter_deer/widgets/pie_chart/pie_data.dart';
 
 /// design/5统计/index.html#artboard11
 class GoodsStatisticsPage extends StatefulWidget {
+
+  const GoodsStatisticsPage({Key key}) : super(key: key);
 
   @override
   _GoodsStatisticsPageState createState() => _GoodsStatisticsPageState();
@@ -35,7 +37,7 @@ class _GoodsStatisticsPageState extends State<GoodsStatisticsPage> {
 
   @override
   Widget build(BuildContext context) {
-    var time = Row(
+    final Widget time = Row(
       children: <Widget>[
         _buildSelectedText(_initialDay.year.toString(), 0),
         Gaps.hGap12,
@@ -45,7 +47,7 @@ class _GoodsStatisticsPageState extends State<GoodsStatisticsPage> {
         Gaps.hGap12,
         Gaps.vLine,
         Gaps.hGap12,
-        _buildSelectedText(_type ? '${DateUtils.previousWeek(_initialDay)} -${DateUtils.apiDayFormat(_initialDay)}' : '${_initialDay.day.toString()}日', 2),
+        _buildSelectedText(_type ? '${date.DateUtils.previousWeekToString(_initialDay)} -${date.DateUtils.apiDayFormat2(_initialDay)}' : '${_initialDay.day.toString()}日', 2),
       ],
     );
     
@@ -208,7 +210,7 @@ class _GoodsStatisticsPageState extends State<GoodsStatisticsPage> {
 
   Widget _buildSelectedText(String text, int index) {
     final Color unSelectedTextColor = context.isDark ? Colors.white : Colours.dark_text_gray;
-    return SelectedDate(
+    return SelectedDateButton(
       text,
       fontSize: Dimens.font_sp15,
       selected: _type && _selectedIndex == index,
