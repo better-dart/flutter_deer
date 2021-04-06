@@ -15,7 +15,7 @@ jobs:
       - uses: tgymnich/fork-sync@v1.4
         with:
           token: ${{ secrets.PERSONAL_TOKEN }}
-          owner: llvm       # fork 上游项目 owner
+          owner: simplezhli # fork 上游项目 owner
           base: master      # fork 上游项目需要同步的分支
           head: master      # 需要同步到本项目的目标分支
           auto_approve: true
