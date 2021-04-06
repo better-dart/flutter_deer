@@ -1,21 +1,23 @@
-# .github/workflows/sync.yml
+# https://github.com/marketplace/actions/fork-sync
 name: Sync Fork
 
 on:
-  push: # push 时触发, 主要是为了测试配置有没有问题
   schedule:
-    - cron: '0 * * * *' # 每小时 0分触发, 对于一些更新不那么频繁的项目可以设置为每天一次, 低碳一点
+    - cron: '*/30 * * * *' # every 30 minutes
+  workflow_dispatch: # on button click
+
 jobs:
-  repo-sync:
+  sync:
+
     runs-on: ubuntu-latest
+
     steps:
-      - uses: TG908/fork-sync@v1.1
+      - uses: tgymnich/fork-sync@v1.4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }} # 这个 token action 会默认配置, 这里只需这样写就行
-          owner: simplezhli  # fork 上游项目 owner
-          head: master       # fork 上游项目需要同步的分支
-          base: master       # 需要同步到本项目的目标分支
-
-
+          token: ${{ secrets.PERSONAL_TOKEN }}
+          owner: llvm       # fork 上游项目 owner
+          base: master      # fork 上游项目需要同步的分支
+          head: master      # 需要同步到本项目的目标分支
+          auto_approve: true
 
 
