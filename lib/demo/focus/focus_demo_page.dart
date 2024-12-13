@@ -5,7 +5,7 @@ import 'package:flutter_deer/util/theme_utils.dart';
 
 /// 博客：https://weilu.blog.csdn.net/article/details/107132031
 class FocusDemoPage extends StatefulWidget {
-  const FocusDemoPage({Key key, this.title}) : super(key: key);
+  const FocusDemoPage({super.key, required this.title});
 
   final String title;
 
@@ -26,7 +26,7 @@ class _FocusDemoPageState extends State<FocusDemoPage> {
 
   @override
   Widget build(BuildContext context) {
-    print('${widget.title} build');
+    debugPrint('${widget.title} build');
     return Scaffold(
       appBar: AppBar(
         backgroundColor: context.isDark ? Colours.dark_bg_color : Colors.blue,

@@ -1,8 +1,8 @@
-
-
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_deer/goods/models/goods_item_entity.dart';
 import 'package:flutter_deer/goods/provider/goods_page_provider.dart';
+import 'package:flutter_deer/res/constant.dart';
 import 'package:flutter_deer/routers/fluro_navigator.dart';
 import 'package:flutter_deer/util/toast_utils.dart';
 import 'package:flutter_deer/widgets/my_refresh_list.dart';
@@ -14,34 +14,34 @@ import '../widgets/goods_delete_bottom_sheet.dart';
 import '../widgets/goods_item.dart';
 
 class GoodsListPage extends StatefulWidget {
-  
+
   const GoodsListPage({
-    Key key,
-    @required this.index
-  }): super(key: key);
-  
+    super.key,
+    required this.index
+  });
+
   final int index;
-  
+
   @override
   _GoodsListPageState createState() => _GoodsListPageState();
 }
 
 class _GoodsListPageState extends State<GoodsListPage> with AutomaticKeepAliveClientMixin<GoodsListPage>, SingleTickerProviderStateMixin {
-  
+
   int _selectIndex = -1;
-  Animation<double> _animation;
-  AnimationController _controller;
+  late Animation<double> _animation;
+  late AnimationController _controller;
   List<GoodsItemEntity> _list = [];
   AnimationStatus _animationStatus = AnimationStatus.dismissed;
-  
+
   @override
   void initState() {
     super.initState();
     // 初始化动画控制
     _controller = AnimationController(duration: const Duration(milliseconds: 450), vsync: this);
     // 动画曲线
-    final _curvedAnimation = CurvedAnimation(parent: _controller, curve: Curves.easeOutSine);
-    _animation = Tween(begin: 0.0, end: 1.1).animate(_curvedAnimation) ..addStatusListener((status) {
+    final curvedAnimation = CurvedAnimation(parent: _controller, curve: Curves.easeOutSine);
+    _animation = Tween(begin: 0.0, end: 1.1).animate(curvedAnimation) ..addStatusListener((status) {
       _animationStatus = status;
     });
 
@@ -58,15 +58,18 @@ class _GoodsListPageState extends State<GoodsListPage> with AutomaticKeepAliveCl
   }
 
   final List<String> _imgList = [
-    'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3130502839,1206722360&fm=26&gp=0.jpg',
-    'https://xxx', // 故意使用一张无效链接，触发默认显示图片
-    'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1762976310,1236462418&fm=26&gp=0.jpg',
-    'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3659255919,3211745976&fm=26&gp=0.jpg',
-    'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2085939314,235211629&fm=26&gp=0.jpg',
-    'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2441563887,1184810091&fm=26&gp=0.jpg'
+    'https://hbimg.b0.upaiyun.com/29cdf569b916ec8b952804a93b0a77e8c9baf61a58e0b-A0orbz_fw658',
+    if (Constant.isDriverTest)
+      'https://hbimg.huabanimg.com/a3947661524be662da9f40d95dddc73c66196816633e1-9bUI91_fw658'
+    else
+      'https://xxx', // 可以使用一张无效链接，触发缺省、异常显示图片
+    'https://hbimg.huabanimg.com/528c11bba65e2b8c0b6ae56f05e66b68f78f545f4ff26-tkM2Lx_fw658',
+    'https://img2.baidu.com/it/u=272387872,295674292&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
+    'https://img0.baidu.com/it/u=2202484983,917817934&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
+    'https://img0.baidu.com/it/u=2329453320,961102964&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500'
   ];
 
-  Future _onRefresh() async {
+  Future<dynamic> _onRefresh() async {
     await Future.delayed(const Duration(seconds: 2), () {
       setState(() {
         _page = 1;
@@ -77,7 +80,7 @@ class _GoodsListPageState extends State<GoodsListPage> with AutomaticKeepAliveCl
     });
   }
 
-  Future _loadMore() async {
+  Future<dynamic> _loadMore() async {
     await Future.delayed(const Duration(seconds: 2), () {
       setState(() {
         _list.addAll(List.generate(10, (i) =>
@@ -87,7 +90,7 @@ class _GoodsListPageState extends State<GoodsListPage> with AutomaticKeepAliveCl
       _setGoodsCount(_list.length);
     });
   }
-  
+
   void _setGoodsCount(int count) {
 //    Provider.of<GoodsPageProvider>(context, listen: false).setGoodsCount(count);
     /// 与上方等价，provider 4.1.0添加的拓展方法
@@ -95,9 +98,9 @@ class _GoodsListPageState extends State<GoodsListPage> with AutomaticKeepAliveCl
   }
 
   int _page = 1;
-  int _maxPage;
+  late int _maxPage;
   StateType _stateType = StateType.loading;
-  
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -108,8 +111,10 @@ class _GoodsListPageState extends State<GoodsListPage> with AutomaticKeepAliveCl
       loadMore: _loadMore,
       hasMore: _page < _maxPage,
       itemBuilder: (_, index) {
+        final String heroTag = 'goodsImg${widget.index}-$index';
         return GoodsItem(
           index: index,
+          heroTag: heroTag,
           selectIndex: _selectIndex,
           item: _list[index],
           animation: _animation,
@@ -137,7 +142,8 @@ class _GoodsListPageState extends State<GoodsListPage> with AutomaticKeepAliveCl
             setState(() {
               _selectIndex = -1;
             });
-            NavigatorUtils.push(context, '${GoodsRouter.goodsEditPage}?isAdd=false');
+            final String url = EncryptUtil.encodeBase64(_list[index].icon);
+            NavigatorUtils.push(context, '${GoodsRouter.goodsEditPage}?isAdd=false&url=$url&heroTag=$heroTag');
           },
           onTapOperation: () {
             Toast.show('下架');

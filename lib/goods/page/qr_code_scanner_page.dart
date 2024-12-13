@@ -1,5 +1,4 @@
 
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -9,7 +8,7 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class QrCodeScannerPage extends StatefulWidget {
 
-  const QrCodeScannerPage({Key key}) : super(key: key);
+  const QrCodeScannerPage({super.key});
 
   @override
   _QrCodeScannerPageState createState() => _QrCodeScannerPageState();
@@ -17,8 +16,7 @@ class QrCodeScannerPage extends StatefulWidget {
 
 class _QrCodeScannerPageState extends State<QrCodeScannerPage> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  Barcode result;
-  QRViewController controller;
+  QRViewController? controller;
 
   /// In order to get hot reload to work we need to pause the camera if the platform
   /// is android, or resume the camera if the platform is iOS.
@@ -26,9 +24,10 @@ class _QrCodeScannerPageState extends State<QrCodeScannerPage> {
   void reassemble() {
     super.reassemble();
     if (Platform.isAndroid) {
-      controller.pauseCamera();
+      controller?.pauseCamera();
+      controller?.resumeCamera();
     } else if (Platform.isIOS) {
-      controller.resumeCamera();
+      controller?.resumeCamera();
     }
   }
 
@@ -46,7 +45,6 @@ class _QrCodeScannerPageState extends State<QrCodeScannerPage> {
               key: qrKey,
               onQRViewCreated: _onQRViewCreated,
               overlay: QrScannerOverlayShape(
-                borderColor: Colors.red,
                 borderRadius: 10,
                 borderLength: 20,
                 borderWidth: 5,
@@ -62,9 +60,7 @@ class _QrCodeScannerPageState extends State<QrCodeScannerPage> {
               child: IconButton(
                 icon: const Icon(Icons.highlight_outlined, size: 32, color: Colors.white,),
                 onPressed: () {
-                  if (controller != null) {
-                    controller.toggleFlash();
-                  }
+                  controller?.toggleFlash();
                 },
               ),
             ),
@@ -83,10 +79,23 @@ class _QrCodeScannerPageState extends State<QrCodeScannerPage> {
     );
   }
 
-  void _onQRViewCreated(QRViewController controller) {
-    this.controller = controller;
-    controller.scannedDataStream.listen((scanData) {
-      NavigatorUtils.goBackWithParams(context, result.code);
+  void _onQRViewCreated(QRViewController? controller) {
+    setState(() {
+      this.controller = controller;
+      if (Platform.isAndroid) {
+        controller?.pauseCamera();
+        controller?.resumeCamera();
+      } else if (Platform.isIOS) {
+        controller?.resumeCamera();
+      }
+    });
+    controller?.scannedDataStream.listen((scanData) {
+      /// 避免扫描结果多次回调
+      controller.dispose();
+      if (!mounted) {
+        return;
+      }
+      NavigatorUtils.goBackWithParams(context, scanData.code ?? '');
     });
   }
 

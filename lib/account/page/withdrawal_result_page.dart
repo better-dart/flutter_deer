@@ -1,15 +1,14 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_deer/res/resources.dart';
 import 'package:flutter_deer/routers/fluro_navigator.dart';
-import 'package:flutter_deer/widgets/my_app_bar.dart';
 import 'package:flutter_deer/widgets/load_image.dart';
+import 'package:flutter_deer/widgets/my_app_bar.dart';
 import 'package:flutter_deer/widgets/my_button.dart';
 
 /// design/6店铺-账户/index.html#artboard5
 class WithdrawalResultPage extends StatefulWidget {
 
-  const WithdrawalResultPage({Key key}) : super(key: key);
+  const WithdrawalResultPage({super.key});
 
   @override
   _WithdrawalResultPageState createState() => _WithdrawalResultPageState();
@@ -25,7 +24,6 @@ class _WithdrawalResultPageState extends State<WithdrawalResultPage> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Gaps.vGap50,
             const LoadAssetImage('account/sqsb',
@@ -40,12 +38,12 @@ class _WithdrawalResultPageState extends State<WithdrawalResultPage> {
             Gaps.vGap8,
             Text(
               '2021-02-21 15:20:10',
-              style: Theme.of(context).textTheme.subtitle2,
+              style: Theme.of(context).textTheme.titleSmall,
             ),
             Gaps.vGap8,
             Text(
               '5秒后返回提现页面',
-              style: Theme.of(context).textTheme.subtitle2,
+              style: Theme.of(context).textTheme.titleSmall,
             ),
             Gaps.vGap24,
             MyButton(

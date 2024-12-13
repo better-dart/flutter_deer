@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -17,7 +16,7 @@ import 'package:flutter_deer/widgets/my_button.dart';
 /// 骚操作：借腹生子
 class SMSVerifyDialog extends StatefulWidget {
 
-  const SMSVerifyDialog({Key key}) : super(key: key);
+  const SMSVerifyDialog({super.key});
 
   @override
   _SMSVerifyDialogState createState() => _SMSVerifyDialogState();
@@ -28,8 +27,8 @@ class _SMSVerifyDialogState extends State<SMSVerifyDialog> {
   /// 倒计时秒数
   final int _second = 60;
   /// 当前秒数
-  int _currentSecond;
-  StreamSubscription _subscription;
+  late int _currentSecond;
+  StreamSubscription<dynamic>? _subscription;
   bool _clickable = true;
 
   final FocusNode _focusNode = FocusNode();

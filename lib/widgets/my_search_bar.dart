@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -9,27 +8,27 @@ import 'package:flutter_deer/widgets/my_button.dart';
 import 'load_image.dart';
 
 /// 搜索页的AppBar
-class SearchBar extends StatefulWidget implements PreferredSizeWidget {
+class MySearchBar extends StatefulWidget implements PreferredSizeWidget {
 
-  const SearchBar({
-    Key key,
+  const MySearchBar({
+    super.key,
     this.hintText = '',
     this.backImg = 'assets/images/ic_back_black.png',
     this.onPressed,
-  }): super(key: key);
+  });
 
   final String backImg;
   final String hintText;
-  final Function(String) onPressed;
+  final void Function(String)? onPressed;
 
   @override
-  _SearchBarState createState() => _SearchBarState();
+  _MySearchBarState createState() => _MySearchBarState();
 
   @override
   Size get preferredSize => const Size.fromHeight(48.0);
 }
 
-class _SearchBarState extends State<SearchBar> {
+class _MySearchBarState extends State<MySearchBar> {
 
   final TextEditingController _controller = TextEditingController();
   final FocusNode _focus = FocusNode();
@@ -40,7 +39,16 @@ class _SearchBarState extends State<SearchBar> {
     _controller.dispose();
     super.dispose();
   }
-  
+
+  // @override
+  // void initState() {
+  //   WidgetsBinding.instance!.addPostFrameCallback((_) async {
+  //     SystemChannels.textInput.invokeMethod<void>('TextInput.updateConfig', const TextInputConfiguration().toJson());
+  //     SystemChannels.textInput.invokeMethod<void>('TextInput.hide');
+  //   });
+  //   super.initState();
+  // }
+
   @override
   Widget build(BuildContext context) {
     final bool isDark = context.isDark;
@@ -108,15 +116,14 @@ class _SearchBarState extends State<SearchBar> {
 //          autofocus: true,
           controller: _controller,
           focusNode: _focus,
-          maxLines: 1,
           textInputAction: TextInputAction.search,
           onSubmitted: (String val) {
             _focus.unfocus();
             // 点击软键盘的动作按钮时的回调
-            widget.onPressed(val);
+            widget.onPressed?.call(val);
           },
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.only(top: 0.0, left: -8.0, right: -16.0, bottom: 14.0),
+            contentPadding: const EdgeInsets.only(left: -8.0, right: -16.0, bottom: 14.0),
             border: InputBorder.none,
             icon: Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 8.0),
@@ -152,12 +159,12 @@ class _SearchBarState extends State<SearchBar> {
       text: '搜索',
       onPressed:() {
         _focus.unfocus();
-        widget.onPressed(_controller.text);
+        widget.onPressed?.call(_controller.text);
       },
     );
     
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
+      value: isDark ? ThemeUtils.light : ThemeUtils.dark,
       child: Material(
         color: context.backgroundColor,
         child: SafeArea(

@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_deer/routers/fluro_navigator.dart';
 import 'package:flutter_deer/util/input_formatter/number_text_input_formatter.dart';
 import 'package:flutter_deer/util/theme_utils.dart';
@@ -12,15 +10,15 @@ import 'package:flutter_deer/widgets/base_dialog.dart';
 class PriceInputDialog extends StatefulWidget {
 
   const PriceInputDialog({
-    Key key,
+    super.key,
     this.title,
     this.inputMaxPrice = 100000,
-    this.onPressed,
-  }) : super(key : key);
+    required this.onPressed,
+  });
 
-  final String title;
+  final String? title;
   final double inputMaxPrice;
-  final Function(String) onPressed;
+  final void Function(String) onPressed;
   
   @override
   _PriceInputDialog createState() => _PriceInputDialog();
@@ -53,7 +51,6 @@ class _PriceInputDialog extends State<PriceInputDialog> {
           key: const Key('price_input'),
           autofocus: true,
           controller: _controller,
-          maxLines: 1,
           //style: TextStyles.textDark14,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
           // 金额限制数字格式

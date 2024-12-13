@@ -4,9 +4,9 @@ import 'package:flutter_deer/demo/navigator/book_entity.dart';
 class BookDetailsScreen extends StatelessWidget {
 
   const BookDetailsScreen({
-    Key key,
-    @required this.book,
-  }): super(key: key);
+    super.key,
+    required this.book,
+  });
 
   final Book book;
 
@@ -24,10 +24,8 @@ class BookDetailsScreen extends StatelessWidget {
               },
               child: const Text('Back'),
             ),
-            if (book != null) ...[
-              Text(book.title, style: Theme.of(context).textTheme.headline6),
-              Text(book.author, style: Theme.of(context).textTheme.subtitle1),
-            ],
+            Text(book.title, style: Theme.of(context).textTheme.titleLarge),
+            Text(book.author, style: Theme.of(context).textTheme.titleMedium),
           ],
         ),
       ),

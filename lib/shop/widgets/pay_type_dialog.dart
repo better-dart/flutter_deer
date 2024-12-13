@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_deer/res/resources.dart';
 import 'package:flutter_deer/routers/fluro_navigator.dart';
@@ -11,13 +10,13 @@ import 'package:flutter_deer/widgets/load_image.dart';
 class PayTypeDialog extends StatefulWidget {
 
   const PayTypeDialog({
-    Key key,
+    super.key,
     this.value,
-    this.onPressed,
-  }) : super(key : key);
+    required this.onPressed,
+  });
 
-  final List<int> value;
-  final Function(List<int>) onPressed;
+  final List<int>? value;
+  final void Function(List<int>) onPressed;
   
   @override
   _PayTypeDialog createState() => _PayTypeDialog();
@@ -26,7 +25,7 @@ class PayTypeDialog extends StatefulWidget {
 
 class _PayTypeDialog extends State<PayTypeDialog> {
 
-  List<int> _selectValue;
+  late List<int> _selectValue;
   final List<String> _list = <String>['线上支付', '对公转账', '货到付款'];
 
   Widget _buildItem(int index) {

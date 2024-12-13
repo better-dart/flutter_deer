@@ -1,10 +1,10 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter_deer/provider/theme_provider.dart';
+import 'package:flutter_deer/main.dart';
 import 'package:flutter_deer/setting/page/about_page.dart';
 import 'package:flutter_deer/setting/page/account_manager_page.dart';
 import 'package:flutter_deer/setting/page/setting_page.dart';
 import 'package:flutter_deer/setting/page/theme_page.dart';
+import 'package:flutter_deer/setting/provider/theme_provider.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -19,7 +19,7 @@ void main() {
     map.forEach((name, page) {
       testWidgets(name, (WidgetTester tester) async {
         final SemanticsHandle handle = tester.ensureSemantics();
-        await tester.pumpWidget(MaterialApp(home: page));
+        await tester.pumpWidget(MyApp(home: page));
         await expectLater(tester, meetsGuideline(iOSTapTargetGuideline));
         handle.dispose();
       });
@@ -30,7 +30,7 @@ void main() {
     map.forEach((name, page) {
       testWidgets(name, (WidgetTester tester) async {
         final SemanticsHandle handle = tester.ensureSemantics();
-        await tester.pumpWidget(MaterialApp(home: page));
+        await tester.pumpWidget(MyApp(home: page));
         await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
         handle.dispose();
       });
@@ -54,9 +54,8 @@ void main() {
 
       map.forEach((name, page) {
         testWidgets('$name $themeName', (WidgetTester tester) async {
-          tester.binding.addTime(const Duration(seconds: 3));
           final SemanticsHandle handle = tester.ensureSemantics();
-          await tester.pumpWidget(MaterialApp(theme: theme, home: page));
+          await tester.pumpWidget(MyApp(theme: theme, home: page));
           await expectLater(tester, meetsGuideline(textContrastGuideline));
           handle.dispose();
         });

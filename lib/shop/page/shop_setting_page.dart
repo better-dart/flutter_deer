@@ -1,25 +1,21 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_2d_amap/flutter_2d_amap.dart';
 import 'package:flutter_deer/res/resources.dart';
 import 'package:flutter_deer/routers/fluro_navigator.dart';
-import 'package:flutter_deer/shop/page/input_text_page.dart';
-import 'package:flutter_deer/shop/widgets/pay_type_dialog.dart';
 import 'package:flutter_deer/shop/shop_router.dart';
+import 'package:flutter_deer/shop/widgets/pay_type_dialog.dart';
 import 'package:flutter_deer/shop/widgets/price_input_dialog.dart';
 import 'package:flutter_deer/shop/widgets/send_type_dialog.dart';
-import 'package:flutter_deer/util/app_navigator.dart';
 import 'package:flutter_deer/util/other_utils.dart';
-import 'package:flutter_deer/widgets/my_app_bar.dart';
 import 'package:flutter_deer/widgets/click_item.dart';
+import 'package:flutter_deer/widgets/my_app_bar.dart';
 import 'package:flutter_deer/widgets/my_button.dart';
 import 'package:flutter_deer/widgets/my_scroll_view.dart';
 
 /// design/7店铺-店铺配置/index.html#artboard17
 class ShopSettingPage extends StatefulWidget {
 
-  const ShopSettingPage({Key key}) : super(key: key);
+  const ShopSettingPage({super.key});
 
   @override
   _ShopSettingPageState createState() => _ShopSettingPageState();
@@ -45,6 +41,13 @@ class _ShopSettingPageState extends State<ShopSettingPage> {
       appBar: const MyAppBar(),
       body: MyScrollView(
         padding: const EdgeInsets.symmetric(vertical: 16.0),
+        bottomButton: Padding(
+          padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8.0),
+          child: MyButton(
+            text: '提交',
+            onPressed: () => NavigatorUtils.goBack(context),
+          ),
+        ),
         children: <Widget>[
           Gaps.vGap5,
           Row(
@@ -175,23 +178,13 @@ class _ShopSettingPageState extends State<ShopSettingPage> {
               NavigatorUtils.pushResult(context, ShopRouter.addressSelectPage, (result) {
                 setState(() {
                   final PoiSearch model = result as PoiSearch;
-                  _address = model.provinceName + ' ' +
-                      model.cityName + ' ' +
-                      model.adName + ' ' +
-                      model.title;
+                  _address = '${model.provinceName.nullSafe} ${model.cityName.nullSafe} ${model.adName.nullSafe} ${model.title.nullSafe}';
                 });
               });
             },
           ),
           Gaps.vGap8,
         ],
-        bottomButton: Padding(
-          padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8.0),
-          child: MyButton(
-            text: '提交',
-            onPressed: () => NavigatorUtils.goBack(context),
-          ),
-        ),
       )
     );
   }
@@ -211,20 +204,21 @@ class _ShopSettingPageState extends State<ShopSettingPage> {
   }
 
   void _goInputTextPage(BuildContext context, String title,
-      String hintText, String content, Function(Object) function, {TextInputType keyboardType}) {
-    AppNavigator.pushResult(
-      context,
-      InputTextPage(
-        title: title,
-        hintText: hintText,
-        content: content,
-        keyboardType: keyboardType,
-      ),
-      function,
+      String hintText, String content, void Function(Object?) function,
+      {TextInputType? keyboardType}) {
+
+    NavigatorUtils.pushResult(context,
+        ShopRouter.inputTextPage, function,
+        arguments: InputTextPageArgumentsData(
+          title: title,
+          hintText: hintText,
+          content: content,
+          keyboardType: keyboardType,
+        )
     );
   }
 
-  void _showInputDialog(String title, Function(String) onPressed) {
+  void _showInputDialog(String title, void Function(String) onPressed) {
     showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -255,7 +249,7 @@ class _ShopSettingPageState extends State<ShopSettingPage> {
   }
 
   void _showSendTypeDialog() {
-    showElasticDialog <void>(
+    showElasticDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
@@ -269,4 +263,20 @@ class _ShopSettingPageState extends State<ShopSettingPage> {
       },
     );
   }
+}
+
+
+class InputTextPageArgumentsData {
+
+  InputTextPageArgumentsData({
+    required this.title,
+    this.content,
+    this.hintText,
+    this.keyboardType,
+});
+
+  late String title;
+  late String? content;
+  late String? hintText;
+  late TextInputType? keyboardType;
 }

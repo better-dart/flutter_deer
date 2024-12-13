@@ -1,8 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_deer/goods/provider/goods_sort_provider.dart';
 import 'package:flutter_deer/res/resources.dart';
 import 'package:flutter_deer/routers/fluro_navigator.dart';
+import 'package:flutter_deer/util/other_utils.dart';
 import 'package:flutter_deer/util/screen_utils.dart';
 import 'package:flutter_deer/util/theme_utils.dart';
 import 'package:flutter_deer/widgets/load_image.dart';
@@ -13,12 +13,12 @@ import 'package:provider/provider.dart';
 class GoodsSortBottomSheet extends StatefulWidget {
 
   const GoodsSortBottomSheet({
-    Key key,
-    @required this.provider,
-    @required this.onSelected,
-  }): super(key: key);
+    super.key,
+    required this.provider,
+    required this.onSelected,
+  });
 
-  final Function(String, String) onSelected;
+  final void Function(String, String) onSelected;
   /// 临时状态
   final GoodsSortProvider provider;
   
@@ -28,7 +28,7 @@ class GoodsSortBottomSheet extends StatefulWidget {
 
 class GoodsSortBottomSheetState extends State<GoodsSortBottomSheet> with SingleTickerProviderStateMixin {
   
-  TabController _tabController;
+  TabController? _tabController;
   final ScrollController _controller = ScrollController();
   
   @override
@@ -37,13 +37,13 @@ class GoodsSortBottomSheetState extends State<GoodsSortBottomSheet> with SingleT
     _tabController = TabController(vsync: this, length: 3);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       widget.provider.initData();
-      _tabController.animateTo(widget.provider.index, duration: const Duration(microseconds: 0));
+      _tabController?.animateTo(widget.provider.index, duration: Duration.zero);
     });
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
+    _tabController?.dispose();
     _controller.dispose();
     super.dispose();
   }
@@ -61,33 +61,33 @@ class GoodsSortBottomSheetState extends State<GoodsSortBottomSheet> with SingleT
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  child,
+                  child!,
                   Gaps.line,
-                  Container(
+                  TabBar(
+                    controller: _tabController,
+                    isScrollable: true,
+                    onTap: (index) {
+                      if (provider.myTabs[index].text.nullSafe.isEmpty) {
+                        // 拦截点击事件
+                        _tabController?.animateTo(provider.index);
+                        return;
+                      }
+                      provider.setList(index);
+                      provider.setIndex(index);
+                      _controller.animateTo(
+                        provider.positions[provider.index] * 48.0,
+                        duration: const Duration(milliseconds: 10),
+                        curve: Curves.ease,
+                      );
+                    },
+                    indicatorSize: TabBarIndicatorSize.label,
+                    unselectedLabelColor: context.isDark ? Colours.text_gray : Colours.text,
+                    labelColor: Theme.of(context).primaryColor,
                     // 隐藏点击效果
-                    color: context.dialogBackgroundColor,
-                    child: TabBar(
-                      controller: _tabController,
-                      isScrollable: true,
-                      onTap: (index) {
-                        if (provider.myTabs[index].text.isEmpty) {
-                          // 拦截点击事件
-                          _tabController.animateTo(provider.index);
-                          return;
-                        }
-                        provider.setList(index);
-                        provider.setIndex(index);
-                        _controller.animateTo(
-                          provider.positions[provider.index] * 48.0,
-                          duration: const Duration(milliseconds: 10),
-                          curve: Curves.ease,
-                        );
-                      },
-                      indicatorSize: TabBarIndicatorSize.label,
-                      unselectedLabelColor: context.isDark ? Colours.text_gray : Colours.text,
-                      labelColor: Theme.of(context).primaryColor,
-                      tabs: provider.myTabs,
-                    ),
+                    overlayColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+                      return Colors.transparent;
+                    },),
+                    tabs: provider.myTabs,
                   ),
                   Gaps.line,
                   Expanded(
@@ -115,6 +115,9 @@ class GoodsSortBottomSheetState extends State<GoodsSortBottomSheet> with SingleT
                   ),
                 ),
                 Positioned(
+                  right: 16.0,
+                  top: 16.0,
+                  bottom: 16.0,
                   child: InkWell(
                     onTap: () => NavigatorUtils.goBack(context),
                     child: const SizedBox(
@@ -123,9 +126,6 @@ class GoodsSortBottomSheetState extends State<GoodsSortBottomSheet> with SingleT
                       child: LoadAssetImage('goods/icon_dialog_close'),
                     ),
                   ),
-                  right: 16.0,
-                  top: 16.0,
-                  bottom: 16.0,
                 )
               ],
             ),
@@ -136,7 +136,7 @@ class GoodsSortBottomSheetState extends State<GoodsSortBottomSheet> with SingleT
   }
 
   Widget _buildItem(GoodsSortProvider provider, int index) {
-    final bool flag = provider.mList[index]['name'] == provider.myTabs[provider.index].text;
+    final bool flag = provider.mList[index].name == provider.myTabs[provider.index].text;
     return InkWell(
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -144,7 +144,7 @@ class GoodsSortBottomSheetState extends State<GoodsSortBottomSheet> with SingleT
         child: Row(
           children: <Widget>[
             Text(
-              provider.mList[index]['name'] as String,
+              provider.mList[index].name,
               style: flag ? TextStyle(
                 fontSize: Dimens.font_sp14,
                 color: Theme.of(context).primaryColor,
@@ -158,18 +158,18 @@ class GoodsSortBottomSheetState extends State<GoodsSortBottomSheet> with SingleT
         ),
       ),
       onTap: () {
-        provider.myTabs[provider.index] = Tab(text: provider.mList[index]['name'] as String);
+        provider.myTabs[provider.index] = Tab(text: provider.mList[index].name);
         provider.positions[provider.index] = index;
 
         provider.indexIncrement();
         provider.setListAndChangeTab();
         if (provider.index > 2) {
           provider.setIndex(2);
-          widget.onSelected(provider.mList[index]['id'] as String, provider.mList[index]['name'] as String);
+          widget.onSelected(provider.mList[index].id, provider.mList[index].name);
           NavigatorUtils.goBack(context);
         }
         _controller.animateTo(0.0, duration: const Duration(milliseconds: 100), curve: Curves.ease);
-        _tabController.animateTo(provider.index);
+        _tabController?.animateTo(provider.index);
       },
     );
   }

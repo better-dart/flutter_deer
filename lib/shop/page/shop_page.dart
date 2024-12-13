@@ -1,12 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_deer/account/account_router.dart';
 import 'package:flutter_deer/mvp/base_page.dart';
 import 'package:flutter_deer/res/resources.dart';
 import 'package:flutter_deer/routers/fluro_navigator.dart';
 import 'package:flutter_deer/setting/setting_router.dart';
-import 'package:flutter_deer/shop/models/user_entity.dart';
 import 'package:flutter_deer/shop/iview/shop_iview.dart';
+import 'package:flutter_deer/shop/models/user_entity.dart';
 import 'package:flutter_deer/shop/presenter/shop_presenter.dart';
 import 'package:flutter_deer/shop/provider/user_provider.dart';
 import 'package:flutter_deer/shop/shop_router.dart';
@@ -19,9 +18,9 @@ import 'package:provider/provider.dart';
 class ShopPage extends StatefulWidget {
 
   const ShopPage({
-    Key key,
+    super.key,
     this.isAccessibilityTest = false,
-  }) : super(key : key);
+  });
 
   final bool isAccessibilityTest;
   
@@ -38,7 +37,7 @@ class _ShopPageState extends State<ShopPage> with BasePageMixin<ShopPage, ShopPa
   UserProvider provider = UserProvider();
   
   @override
-  void setUser(UserEntity user) {
+  void setUser(UserEntity? user) {
     provider.setUser(user);
   }
 
@@ -48,7 +47,7 @@ class _ShopPageState extends State<ShopPage> with BasePageMixin<ShopPage, ShopPa
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final Color _iconColor = ThemeUtils.getIconColor(context);
+    final Color? iconColor = ThemeUtils.getIconColor(context);
     final Widget line = Container(
       height: 0.6, 
       width: double.infinity, 
@@ -70,7 +69,7 @@ class _ShopPageState extends State<ShopPage> with BasePageMixin<ShopPage, ShopPa
                 key: const Key('message'),
                 width: 24.0,
                 height: 24.0,
-                color: _iconColor,
+                color: iconColor,
               ),
             ),
             IconButton(
@@ -83,7 +82,7 @@ class _ShopPageState extends State<ShopPage> with BasePageMixin<ShopPage, ShopPa
                 key: const Key('setting'),
                 width: 24.0,
                 height: 24.0,
-                color: _iconColor,
+                color: iconColor,
               ),
             )
           ],
@@ -109,7 +108,7 @@ class _ShopPageState extends State<ShopPage> with BasePageMixin<ShopPage, ShopPa
                         backgroundImage: ImageUtils.getImageProvider(provider.user?.avatarUrl, holderImg: 'shop/tx'),
                       ),
                     ),
-                    child,
+                    child!,
                   ],
                 );
                 return Padding(
@@ -119,11 +118,11 @@ class _ShopPageState extends State<ShopPage> with BasePageMixin<ShopPage, ShopPa
                   ),
                 );
               },
-              child: Positioned(
+              child: const Positioned(
                 top: 38.0,
                 left: 0.0,
                 child: Row(
-                  children: const <Widget>[
+                  children: <Widget>[
                     LoadAssetImage('shop/zybq', width: 40.0, height: 16.0,),
                     Gaps.hGap8,
                     Text('店铺账号:15000000000', style: TextStyles.textSize12)
@@ -196,14 +195,13 @@ class _ShopPageState extends State<ShopPage> with BasePageMixin<ShopPage, ShopPa
 class _ShopFunctionModule extends StatelessWidget {
 
   const _ShopFunctionModule({
-    Key key,
-    this.onItemClick,
-    @required this.data,
-    @required this.image,
-    @required this.darkImage,
-  }): super(key: key);
+    required this.onItemClick,
+    required this.data,
+    required this.image,
+    required this.darkImage,
+  });
   
-  final Function(int index) onItemClick;
+  final void Function(int index) onItemClick;
   final List<String> data;
   final List<String> image;
   final List<String> darkImage;
@@ -240,4 +238,3 @@ class _ShopFunctionModule extends StatelessWidget {
     );
   }
 }
-

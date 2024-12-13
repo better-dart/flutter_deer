@@ -1,5 +1,3 @@
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_deer/res/resources.dart';
 import 'package:flutter_deer/widgets/my_app_bar.dart';
@@ -8,7 +6,7 @@ import 'package:flutter_deer/widgets/my_card.dart';
 /// design/8设置/index.html#artboard2
 class MessagePage extends StatefulWidget {
 
-  const MessagePage({Key key}) : super(key: key);
+  const MessagePage({super.key});
 
   @override
   _MessagePageState createState() => _MessagePageState();
@@ -58,7 +56,7 @@ class _MessageItemState extends State<_MessageItem> {
     return Column(
       children: <Widget>[
         Gaps.vGap15,
-        Text('2021-5-31 17:19:36', style: Theme.of(context).textTheme.subtitle2),
+        Text('2021-5-31 17:19:36', style: Theme.of(context).textTheme.titleSmall),
         Gaps.vGap8,
         MyCard(
           child: Padding(

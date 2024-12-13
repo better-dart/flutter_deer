@@ -28,11 +28,11 @@ class AppNavigator {
       context,
       MaterialPageRoute(
         builder: (BuildContext context) => scene,
-      ), (route) => route == null
+      ), (route) => false
     );
   }
 
-  static void pushResult(BuildContext context, Widget scene, Function(Object) function) {
+  static void pushResult(BuildContext context, Widget scene, void Function(Object?) function) {
     Navigator.push<void>(
       context,
       MaterialPageRoute(
@@ -45,7 +45,7 @@ class AppNavigator {
       }
       function(result);
     }).catchError((dynamic error) {
-      print('$error');
+      debugPrint('$error');
     });
   }
 

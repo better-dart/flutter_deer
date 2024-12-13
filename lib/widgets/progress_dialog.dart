@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_deer/res/resources.dart';
@@ -7,9 +6,9 @@ import 'package:flutter_deer/res/resources.dart';
 class ProgressDialog extends Dialog {
 
   const ProgressDialog({
-    Key key,
+    super.key,
     this.hintText = '',
-  }):super(key: key);
+  });
 
   final String hintText;
 
@@ -19,14 +18,7 @@ class ProgressDialog extends Dialog {
     final Widget progress = Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Theme(
-          data: ThemeData(
-            cupertinoOverrideTheme: const CupertinoThemeData(
-              brightness: Brightness.dark, // 局部指定夜间模式，加载圈颜色会设置为白色
-            ),
-          ),
-          child: const CupertinoActivityIndicator(radius: 14.0),
-        ),
+        const CupertinoActivityIndicator(radius: 14.0, color: Colors.grey,),
         Gaps.vGap8,
         Text(hintText, style: const TextStyle(color: Colors.white),)
       ],

@@ -38,7 +38,7 @@ class InnerRouterDelegate extends RouterDelegate<BookRoutePath>
           if (appState.selectedBook != null)
             MaterialPage<dynamic>(
               key: ValueKey(appState.selectedBook),
-              child: BookDetailsScreen(book: appState.selectedBook),
+              child: BookDetailsScreen(book: appState.selectedBook!),
             ),
         ] else
           const FadeAnimationPage(
@@ -69,12 +69,12 @@ class InnerRouterDelegate extends RouterDelegate<BookRoutePath>
 
 class FadeAnimationPage extends Page<void> {
 
-  const FadeAnimationPage({LocalKey key, this.child}) : super(key: key);
+  const FadeAnimationPage({super.key, required this.child});
 
   final Widget child;
 
   @override
-  Route createRoute(BuildContext context) {
+  Route<dynamic> createRoute(BuildContext context) {
     return PageRouteBuilder<dynamic>(
       settings: this,
       pageBuilder: (context, animation, animation2) {

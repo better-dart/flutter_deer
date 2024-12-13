@@ -1,12 +1,12 @@
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_deer/res/resources.dart';
 import 'package:flutter_deer/routers/fluro_navigator.dart';
-import 'package:flutter_deer/util/theme_utils.dart';
+import 'package:flutter_deer/util/device_utils.dart';
 import 'package:flutter_deer/util/other_utils.dart';
-import 'package:flutter_deer/widgets/my_app_bar.dart';
+import 'package:flutter_deer/util/theme_utils.dart';
 import 'package:flutter_deer/widgets/load_image.dart';
+import 'package:flutter_deer/widgets/my_app_bar.dart';
 import 'package:flutter_deer/widgets/my_button.dart';
 import 'package:flutter_deer/widgets/my_scroll_view.dart';
 
@@ -16,7 +16,7 @@ import '../order_router.dart';
 /// design/3订单/index.html#artboard10
 class OrderInfoPage extends StatefulWidget {
 
-  const OrderInfoPage({Key key}) : super(key: key);
+  const OrderInfoPage({super.key});
 
   @override
   _OrderInfoPageState createState() => _OrderInfoPageState();
@@ -26,7 +26,7 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
   
   @override
   Widget build(BuildContext context) {
-    final Color red = Theme.of(context).errorColor;
+    final Color red = Theme.of(context).colorScheme.error;
     final bool isDark = context.isDark;
 
     final Widget bottomMenu = Container(
@@ -42,7 +42,6 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Expanded(
-              flex: 1,
               child: MyButton(
                 backgroundColor: isDark ? Colours.dark_material_bg : const Color(0xFFE1EAFA),
                 textColor: isDark ? Colours.dark_text : Colours.app_main,
@@ -53,7 +52,6 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
             ),
             Gaps.hGap16,
             Expanded(
-              flex: 1,
               child: MyButton(
                 text: '接单',
                 minHeight: 45,
@@ -82,12 +80,12 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
             child: LoadAssetImage('order/icon_avatar', width: 44.0, height: 44.0),
           ),
           Gaps.hGap8,
-          Expanded(
+          const Expanded(
             // 合并Text的语义
             child: MergeSemantics(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const <Widget>[
+                children: <Widget>[
                   Text('郭李'),
                   Gaps.vGap8,
                   Text('15000000000'),
@@ -110,9 +108,9 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
         ],
       ),
       Gaps.vGap10,
-      Row(
+      const Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const <Widget>[
+        children: <Widget>[
           LoadAssetImage('order/icon_address', width: 16.0, height: 20.0),
           Gaps.hGap4,
           Expanded(child: Text('西安市雁塔区 鱼化寨街道唐兴路唐兴数码3楼318', maxLines: 2)),
@@ -166,8 +164,8 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
       body: MyScrollView(
         key: const Key('order_info'),
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        children: children,
         bottomButton: bottomMenu,
+        children: children,
       )
     );
   }
@@ -178,7 +176,7 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
         padding: const EdgeInsets.symmetric(vertical: 4.0),
         child: Row(
           children: <Widget>[
-            Text(title, style: Theme.of(context).textTheme.subtitle2.copyWith(fontSize: Dimens.font_sp14)),
+            Text(title, style: Theme.of(context).textTheme.titleSmall?.copyWith(fontSize: Dimens.font_sp14)),
             Gaps.hGap8,
             Text(content)
           ],
@@ -192,8 +190,8 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         const Padding(
-          child: LoadAssetImage('order/icon_goods', width: 56.0, height: 56.0),
           padding: EdgeInsets.only(top: 5.0),
+          child: LoadAssetImage('order/icon_goods', width: 56.0, height: 56.0),
         ),
         Gaps.hGap8,
         Expanded(
@@ -206,11 +204,11 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
                 overflow: TextOverflow.ellipsis,
               ),
               Gaps.vGap4,
-              Text(index.isEven ? '玫瑰香 520ml' : '125ml', style: Theme.of(context).textTheme.subtitle2),
+              Text(index.isEven ? '玫瑰香 520ml' : '125ml', style: Theme.of(context).textTheme.titleSmall),
               Gaps.vGap8,
               Row(
                 children: <Widget>[
-                  _buildGoodsTag(Theme.of(context).errorColor, '立减2.50元'),
+                  _buildGoodsTag(Theme.of(context).colorScheme.error, '立减2.50元'),
                   Gaps.hGap4,
                   Offstage(
                     offstage: index % 2 != 0,
@@ -252,12 +250,12 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
       alignment: Alignment.center,
       child: Text(
         text,
-        style: const TextStyle(color: Colors.white, fontSize: Dimens.font_sp10, height: 1.1,),
+        style: TextStyle(color: Colors.white, fontSize: Dimens.font_sp10, height: Device.isAndroid ? 1.1 : null,),
       ),
     );
   }
   
-  Widget _buildGoodsInfoItem(String title, String content, {Color contentTextColor}) {
+  Widget _buildGoodsInfoItem(String title, String content, {Color? contentTextColor}) {
     return MergeSemantics(
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -266,7 +264,7 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
           children: <Widget>[
             Text(title),
             Text(content, style: TextStyle(
-              color: contentTextColor ?? Theme.of(context).textTheme.bodyText2.color,
+              color: contentTextColor ?? Theme.of(context).textTheme.bodyMedium?.color,
               fontWeight: FontWeight.bold
             ))
           ],
@@ -295,9 +293,9 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
               },
               style: ButtonStyle(
                 // 按下高亮颜色
-                overlayColor: MaterialStateProperty.all<Color>(Theme.of(context).errorColor.withOpacity(0.2)),
+                overlayColor: MaterialStateProperty.all<Color>(Theme.of(context).colorScheme.error.withOpacity(0.2)),
               ),
-              child: Text('拨打', style: TextStyle(color: Theme.of(context).errorColor),),
+              child: Text('拨打', style: TextStyle(color: Theme.of(context).colorScheme.error),),
             ),
           ],
         );

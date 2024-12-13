@@ -4,8 +4,8 @@ import 'package:flutter_deer/account/models/bank_entity.dart';
 import 'package:flutter_deer/account/models/city_entity.dart';
 import 'package:flutter_deer/res/resources.dart';
 import 'package:flutter_deer/routers/fluro_navigator.dart';
-import 'package:flutter_deer/util/theme_utils.dart';
 import 'package:flutter_deer/util/other_utils.dart';
+import 'package:flutter_deer/util/theme_utils.dart';
 import 'package:flutter_deer/widgets/my_app_bar.dart';
 import 'package:flutter_deer/widgets/my_button.dart';
 import 'package:flutter_deer/widgets/my_scroll_view.dart';
@@ -16,7 +16,7 @@ import 'package:flutter_deer/widgets/text_field_item.dart';
 /// design/6店铺-账户/index.html#artboard29
 class AddWithdrawalAccountPage extends StatefulWidget {
 
-  const AddWithdrawalAccountPage({Key key}) : super(key: key);
+  const AddWithdrawalAccountPage({super.key});
 
   @override
   _AddWithdrawalAccountPageState createState() => _AddWithdrawalAccountPageState();
@@ -31,7 +31,7 @@ class _AddWithdrawalAccountPageState extends State<AddWithdrawalAccountPage> {
   
   @override
   Widget build(BuildContext context) {
-    final TextStyle style = Theme.of(context).textTheme.subtitle2.copyWith(fontSize: Dimens.font_sp14);
+    final TextStyle? style = Theme.of(context).textTheme.titleSmall?.copyWith(fontSize: Dimens.font_sp14);
     final List<Widget> children = <Widget>[
       Gaps.vGap5,
       SelectedItem(
@@ -56,7 +56,7 @@ class _AddWithdrawalAccountPageState extends State<AddWithdrawalAccountPage> {
             SelectedItem(
               title: '开  户  地',
               content: _city.isEmpty ? '选择开户城市' : _city,
-              style: _city.isEmpty ? style: null,
+              style: _city.isEmpty ? style : null,
               onTap: () {
                 NavigatorUtils.pushResult(context, AccountRouter.citySelectPage, (Object result) {
                   setState(() {
@@ -74,7 +74,7 @@ class _AddWithdrawalAccountPageState extends State<AddWithdrawalAccountPage> {
                 NavigatorUtils.pushResult(context, '${AccountRouter.bankSelectPage}?type=0', (Object result) {
                   setState(() {
                     final BankEntity model = result as BankEntity;
-                    _bank = model.bankName;
+                    _bank = model.bankName.nullSafe;
                   });
                 });
               },
@@ -87,7 +87,7 @@ class _AddWithdrawalAccountPageState extends State<AddWithdrawalAccountPage> {
                 NavigatorUtils.pushResult(context, '${AccountRouter.bankSelectPage}?type=1', (Object result) {
                   setState(() {
                     final BankEntity model = result as BankEntity;
-                    _bank1 = model.bankName;
+                    _bank1 = model.bankName.nullSafe;
                   });
                 });
               },
@@ -99,7 +99,7 @@ class _AddWithdrawalAccountPageState extends State<AddWithdrawalAccountPage> {
         padding: const EdgeInsets.only(top: 8.0, left: 16.0),
         child: Text(
           _isWechat ? '绑定本机当前登录的微信号' : '绑定持卡人本人的银行卡',
-          style: Theme.of(context).textTheme.subtitle2,
+          style: Theme.of(context).textTheme.titleSmall,
         ),
       ),
     ];
@@ -110,14 +110,14 @@ class _AddWithdrawalAccountPageState extends State<AddWithdrawalAccountPage> {
         title: '添加账号',
       ),
       body: MyScrollView(
-        children: children,
         bottomButton: Padding(
           padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8.0),
           child: MyButton(
             onPressed: () => NavigatorUtils.goBackWithParams(context, 'add'),
             text: '确定',
           ),
-        )
+        ),
+        children: children
       ),
     );
   }
@@ -136,7 +136,7 @@ class _AddWithdrawalAccountPageState extends State<AddWithdrawalAccountPage> {
     showElasticDialog<void>(
       context: context,
       builder: (BuildContext context) {
-        const OutlinedBorder buttonShape = RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(0)));
+        const OutlinedBorder buttonShape = RoundedRectangleBorder();
 
         final Widget content = Column(
           children: <Widget>[
@@ -190,9 +190,9 @@ class _AddWithdrawalAccountPageState extends State<AddWithdrawalAccountPage> {
             data: TextButtonThemeData(
               style: TextButton.styleFrom(
                 // 文字颜色
-                primary: Theme.of(context).primaryColor,
+                foregroundColor: Theme.of(context).primaryColor,
                 // 按钮大小
-                minimumSize: const Size(double.infinity, double.infinity),
+                minimumSize: Size.infinite,
                 // 修改默认圆角
                 shape: buttonShape,
               ),

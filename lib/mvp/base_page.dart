@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_deer/mvp/base_presenter.dart';
 import 'package:flutter_deer/routers/fluro_navigator.dart';
@@ -9,7 +8,7 @@ import 'mvps.dart';
 
 mixin BasePageMixin<T extends StatefulWidget, P extends BasePresenter> on State<T> implements IMvpView {
 
-  P presenter;
+  P? presenter;
 
   P createPresenter();
   
@@ -51,7 +50,7 @@ mixin BasePageMixin<T extends StatefulWidget, P extends BasePresenter> on State<
         );
       } catch(e) {
         /// 异常原因主要是页面没有build完成就调用Progress。
-        print(e);
+        debugPrint(e.toString());
       }
     }
   }

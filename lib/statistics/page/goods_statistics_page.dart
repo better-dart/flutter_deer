@@ -1,4 +1,3 @@
-
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -7,8 +6,8 @@ import 'package:flutter_deer/statistics/widgets/selected_date.dart';
 import 'package:flutter_deer/util/date_utils.dart' as date;
 import 'package:flutter_deer/util/image_utils.dart';
 import 'package:flutter_deer/util/theme_utils.dart';
-import 'package:flutter_deer/widgets/my_app_bar.dart';
 import 'package:flutter_deer/widgets/load_image.dart';
+import 'package:flutter_deer/widgets/my_app_bar.dart';
 import 'package:flutter_deer/widgets/my_card.dart';
 import 'package:flutter_deer/widgets/pie_chart/pie_chart.dart';
 import 'package:flutter_deer/widgets/pie_chart/pie_data.dart';
@@ -16,7 +15,7 @@ import 'package:flutter_deer/widgets/pie_chart/pie_data.dart';
 /// design/5统计/index.html#artboard11
 class GoodsStatisticsPage extends StatefulWidget {
 
-  const GoodsStatisticsPage({Key key}) : super(key: key);
+  const GoodsStatisticsPage({super.key});
 
   @override
   _GoodsStatisticsPageState createState() => _GoodsStatisticsPageState();
@@ -24,7 +23,7 @@ class GoodsStatisticsPage extends StatefulWidget {
 
 class _GoodsStatisticsPageState extends State<GoodsStatisticsPage> {
 
-  DateTime _initialDay;
+  late DateTime _initialDay;
   int _selectedIndex = 2;
   /// false 待配货 true 已配货
   bool _type = false;
@@ -43,11 +42,11 @@ class _GoodsStatisticsPageState extends State<GoodsStatisticsPage> {
         Gaps.hGap12,
         Gaps.vLine,
         Gaps.hGap12,
-        _buildSelectedText('${_initialDay.month.toString()}月', 1),
+        _buildSelectedText('${_initialDay.month}月', 1),
         Gaps.hGap12,
         Gaps.vLine,
         Gaps.hGap12,
-        _buildSelectedText(_type ? '${date.DateUtils.previousWeekToString(_initialDay)} -${date.DateUtils.apiDayFormat2(_initialDay)}' : '${_initialDay.day.toString()}日', 2),
+        _buildSelectedText(_type ? '${date.DateUtils.previousWeekToString(_initialDay)} -${date.DateUtils.apiDayFormat2(_initialDay)}' : '${_initialDay.day}日', 2),
       ],
     );
     
@@ -176,7 +175,7 @@ class _GoodsStatisticsPageState extends State<GoodsStatisticsPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     const Text('那鲁火多饮料', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontWeight: FontWeight.bold, fontSize: Dimens.font_sp12)),
-                    Text('250ml', style: Theme.of(context).textTheme.subtitle2),
+                    Text('250ml', style: Theme.of(context).textTheme.titleSmall),
                   ],
                 ),
               ),
@@ -187,8 +186,8 @@ class _GoodsStatisticsPageState extends State<GoodsStatisticsPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text('100件', style: Theme.of(context).textTheme.subtitle2),
-                    Text('未支付', style: Theme.of(context).textTheme.subtitle2),
+                    Text('100件', style: Theme.of(context).textTheme.titleSmall),
+                    Text('未支付', style: Theme.of(context).textTheme.titleSmall),
                   ],
                 ),
               ),
@@ -197,8 +196,8 @@ class _GoodsStatisticsPageState extends State<GoodsStatisticsPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: _type ? MainAxisAlignment.center : MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text('400件', style: Theme.of(context).textTheme.subtitle2),
-                  Visibility(visible: !_type, child: Text('已支付', style: Theme.of(context).textTheme.subtitle2)),
+                  Text('400件', style: Theme.of(context).textTheme.titleSmall),
+                  Visibility(visible: !_type, child: Text('已支付', style: Theme.of(context).textTheme.titleSmall)),
                 ],
               ),
             ],

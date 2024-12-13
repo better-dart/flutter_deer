@@ -2,6 +2,8 @@
 
 <img src="preview/logo.jpg"/>
 
+## [English](README-EN.md) | 中文
+
 本项目为个人学习Flutter的练习项目。
 
 通过设置、修改、组合自带部件以及自定义来实现具体的设计效果，满足日常开发的需求。
@@ -19,15 +21,15 @@
 | ![](./preview/Screenshot_13.png)   |  ![](./preview/Screenshot_14.png)   | ![](./preview/Screenshot_15.png)  |  ![](./preview/Screenshot_17.png)  |
 | ![](./preview/Screenshot_18.png)   |  ![](./preview/Screenshot_19.png)   | ![](./preview/Screenshot_20.png)  |  ![](./preview/Screenshot_21.png)  |
 | ![](./preview/Screenshot_22.jpg)   |  ![](./preview/Screenshot_23.jpg)   | ![](./preview/Screenshot_24.jpg)  |  ![](./preview/Screenshot_25.jpg)  |
-| ![](./preview/Screenshot_26.jpg)   |  ![](./preview/Screenshot_27.jpg)   |  |  |
+| ![](./preview/Screenshot_26.jpg)   |  ![](./preview/Screenshot_27.jpg)   | ![](./preview/lottie.gif)         |  |
 
-**觉得还可以的话，来个Star、Fork支持一波！有问题欢迎提Issue。**
+**觉得还可以的话，来个Star、Fork支持一波！本项目持续维护中，有问题欢迎提Issue。**
 
-## 实现内容
+## 实现内容（已迁移到空安全）
 
 * mvp模式
-* 使用`provider` (5.x 版本)做状态管理
-* 基于`dio` （4.x 版本）的网络请求封装
+* 使用`provider` (6.x 版本)做状态管理
+* 基于`dio` （5.x 版本）的网络请求封装
 * 完整的集成测试、可访问性测试。
 * 支持深色模式
 * 本地化（感谢 @ghedwards）
@@ -49,11 +51,12 @@
 * 自定义简易日历
 * 曲线图及[饼状图](https://dartpad.cn/d06f8f737d6eb2d87978eb2d14b87864)
 * 模块化路由管理
+* 更多Demo（水波纹动画、刮刮卡、lottie）
 * 更多的细节优化
 
 具体可以下载体验：
 
-Android版安装包：[点击下载](https://www.pgyer.com/gYXj)，安装密码：`111111`。
+Android版安装包：[点击去下载](https://github.com/simplezhli/flutter_deer/releases)。
 
 iOS需要自行下载代码运行。
 
@@ -61,11 +64,11 @@ Web体验地址：https://simplezhli.github.io/flutter_deer/
 
 ## 项目运行环境
 
-[![Build Status](https://github.com/simplezhli/flutter_deer/workflows/flutter_deer%20driver/badge.svg?branch=master)](https://github.com/simplezhli/flutter_deer/actions?query=workflow%3A%22flutter_deer+driver%22+branch%3Amaster)
+[![flutter_deer driver](https://github.com/simplezhli/flutter_deer/actions/workflows/flutter-drive.yml/badge.svg?branch=master)](https://github.com/simplezhli/flutter_deer/actions/workflows/flutter-drive.yml)
 
-    1. Flutter version 2.0.3
-     
-    2. Dart version 2.12.2
+    1. Flutter version 3.27.0
+
+    2. Dart version 3.6.0
 
 ## 注意事项
 
@@ -76,12 +79,12 @@ Web体验地址：https://simplezhli.github.io/flutter_deer/
 - 项目运行有问题可以在[iOS问题汇总](./docs/iOS问题汇总.md)、[Android问题汇总](./docs/Android问题汇总.md)中尝试寻找解决办法。
 
 - 由于部分插件的原因，本项目在Windows、macOS仅做预览（主要为原生功能方面，UI问题不大）。有兴趣的可自行运行体验。
-        
+
 - 可以执行集成测试命令`flutter drive --target=test_driver/driver.dart` 查看功能演示。
 
 - 因为页面有点多，一开始可能会导致页面无法与设计图对应上。我在代码注释中有添加设计图的相对路径，可以搜索或查找到对应页面，希望对你有帮助。
 
-- 本项目使用FlutterJsonBeanFactory插件来生成Bean。FlutterJsonBeanFactory插件使用可以查看[这篇文章](https://www.jianshu.com/p/14cbcbaa74b7)。
+- 本项目使用[FlutterJsonBeanFactory](https://github.com/zhangruiyu/FlutterJsonBeanFactory)插件来生成Bean。
 
 - Web受制于js等资源过大和部署在Github上，访问会慢一些。
 
@@ -118,12 +121,14 @@ Web体验地址：https://simplezhli.github.io/flutter_deer/
 - [【译】正确操作Dart中的字符串](https://weilu.blog.csdn.net/article/details/107857569)
 
 - [【译】学习Flutter中新的Navigator和Router系统](https://weilu.blog.csdn.net/article/details/108902282)
-    
+
+- [【译】Flutter 2.2中的新功能](https://weilu.blog.csdn.net/article/details/117061293)
+
 ## 使用到的三方库
 
 | 库                         | 功能             |
 | -------------------------- | --------------- |
-| [dio](https://github.com/flutterchina/dio)                            | **网络库**       |
+| [dio](https://github.com/cfug/dio)                            | **网络库**       |
 | [provider](https://github.com/rrousselGit/provider)                   | **状态管理**     |
 | [flutter_2d_amap](https://github.com/simplezhli/flutter_2d_amap)      | **高德2D地图**   |
 | [cached_network_image](https://github.com/renefloor/flutter_cached_network_image)       | **图片加载**       |
@@ -138,16 +143,17 @@ Web体验地址：https://simplezhli.github.io/flutter_deer/
 | [rxdart](https://github.com/ReactiveX/rxdart)                         | **Dart的响应式扩展** |
 | [webview_flutter](https://github.com/flutter/plugins/tree/master/packages/webview_flutter)    | **WebView插件**       |
 | [keyboard_actions](https://github.com/diegoveloper/flutter_keyboard_actions)                  | **处理键盘事件**       |
-| [sticky_headers](https://github.com/fluttercommunity/flutter_sticky_headers)   | **列表悬浮头**       |
 | [azlistview](https://github.com/flutterchina/azlistview)              | **城市选择列表**   |
 | [date_utils](https://github.com/apptreesoftware/date_utils)           | **常用的日期工具类** |
 | [bezier_chart](https://github.com/aeyrium/bezier-chart)               | **曲线图表**       |
 | [sprintf](https://github.com/Naddiseo/dart-sprintf)                   | **格式化String**   |
 | [qr_code_scanner](https://github.com/juliuscanute/qr_code_scanner)     | **扫码功能** |
 | [intl](https://github.com/dart-lang/intl)     | **本地化** |
+| [device_info_plus](https://github.com/fluttercommunity/plus_plugins/tree/main/packages/device_info_plus)     | **获取设备信息** |
 | [vibration](https://github.com/benjamindean/flutter_vibration)     | **振动** |
+| [lottie](https://github.com/xvrh/lottie-flutter)     | **动画效果** |
 
-详细内容可以参看[pubspec.yaml](https://github.com/simplezhli/flutter_deer/blob/master/pubspec.yaml)文件    
+详细内容可以参看[pubspec.yaml](https://github.com/simplezhli/flutter_deer/blob/master/pubspec.yaml)文件
 
 ## 后续计划：
 
@@ -159,8 +165,6 @@ Web体验地址：https://simplezhli.github.io/flutter_deer/
 
 * [x] 页面添加设计图路径注释，方便寻找对应的设计图。
 
-* [x] 项目中有使用这一套框架及组件，会同步修复及优化遇到的问题。
-
 * [x] 添加集成测试。
 
 * [x] 深色模式支持。
@@ -169,11 +173,17 @@ Web体验地址：https://simplezhli.github.io/flutter_deer/
 
 * [x] Web端支持。
 
-* [ ] 迁移到空安全。
+* [x] 迁移到空安全。（安装包减少135KB，10.3M -> 10.1M）
+
+* [ ] 迁移至Navigator 2.0。
 
 ## 已知存在问题：
 
-- 2.0.0 已知存在问题(#68571 #73351 #73388)
+- 部分使用的到的三方库没有适配3.0.0，flutter_swiper（flutter_swiper_null_safety_flutter3替代）、flustars（flustars_flutter3替代）、azlistview（升级scrollable_positioned_list）。
+
+- 3.10.0 已知存在问题(#105203 #113595)
+
+- 2.0.0 已知存在问题(#68571 #73351 #74890 #79773 #79931)
 
 - ListView在没有设置分割线的情况下，个别Item之间存在大约1像素的间隔（[像素对齐问题](https://github.com/flutter/flutter/issues/14288)）。
 
@@ -191,7 +201,7 @@ Web体验地址：https://simplezhli.github.io/flutter_deer/
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+       https://www.apache.org/licenses/LICENSE-2.0
 
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,

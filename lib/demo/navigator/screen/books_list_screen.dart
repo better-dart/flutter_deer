@@ -4,10 +4,10 @@ import 'package:flutter_deer/demo/navigator/book_entity.dart';
 class BooksListScreen extends StatelessWidget {
 
   const BooksListScreen({
-    Key key,
-    @required this.books,
-    @required this.onTapped,
-  }): super(key: key);
+    super.key,
+    required this.books,
+    required this.onTapped,
+  });
 
   final List<Book> books;
   final ValueChanged<Book> onTapped;
@@ -17,7 +17,7 @@ class BooksListScreen extends StatelessWidget {
     return Scaffold(
       body: ListView(
         children: [
-          for (var book in books)
+          for (final book in books)
             ListTile(
               title: Text(book.title),
               subtitle: Text(book.author),

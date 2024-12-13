@@ -6,14 +6,14 @@ class BookRouteInformationParser extends RouteInformationParser<BookRoutePath> {
   @override
   Future<BookRoutePath> parseRouteInformation(
       RouteInformation routeInformation) async {
-    final uri = Uri.parse(routeInformation.location);
+    final uri = routeInformation.uri;
 
     if (uri.pathSegments.isNotEmpty && uri.pathSegments.first == 'settings') {
       return BooksSettingsPath();
     } else {
       if (uri.pathSegments.length >= 2) {
         if (uri.pathSegments[0] == 'book') {
-          return BooksDetailsPath(int.tryParse(uri.pathSegments[1]));
+          return BooksDetailsPath(int.tryParse(uri.pathSegments[1])!);
         }
       }
       return BooksListPath();
@@ -21,15 +21,15 @@ class BookRouteInformationParser extends RouteInformationParser<BookRoutePath> {
   }
 
   @override
-  RouteInformation restoreRouteInformation(BookRoutePath configuration) {
+  RouteInformation? restoreRouteInformation(BookRoutePath configuration) {
     if (configuration is BooksListPath) {
-      return const RouteInformation(location: '/home');
+      return RouteInformation(uri: Uri.parse('/home'));
     }
     if (configuration is BooksSettingsPath) {
-      return const RouteInformation(location: '/settings');
+      return RouteInformation(uri: Uri.parse('/settings'));
     }
     if (configuration is BooksDetailsPath) {
-      return RouteInformation(location: '/book/${configuration.id}');
+      return RouteInformation(uri: Uri.parse('/book/${configuration.id}'));
     }
     return null;
   }

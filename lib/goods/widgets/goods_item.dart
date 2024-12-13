@@ -1,10 +1,10 @@
-
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_deer/goods/models/goods_item_entity.dart';
 import 'package:flutter_deer/res/resources.dart';
-import 'package:flutter_deer/util/theme_utils.dart';
+import 'package:flutter_deer/util/device_utils.dart';
 import 'package:flutter_deer/util/other_utils.dart';
+import 'package:flutter_deer/util/theme_utils.dart';
 import 'package:flutter_deer/widgets/load_image.dart';
 import 'package:flutter_deer/widgets/my_button.dart';
 
@@ -15,17 +15,18 @@ import 'menu_reveal.dart';
 class GoodsItem extends StatelessWidget {
   
   const GoodsItem({
-    Key key,
-    @required this.item,
-    @required this.index,
-    @required this.selectIndex,
-    @required this.onTapMenu,
-    @required this.onTapEdit,
-    @required this.onTapOperation,
-    @required this.onTapDelete,
-    @required this.onTapMenuClose,
-    @required this.animation
-  }): super(key: key);
+    super.key,
+    required this.item,
+    required this.index,
+    required this.selectIndex,
+    required this.onTapMenu,
+    required this.onTapEdit,
+    required this.onTapOperation,
+    required this.onTapDelete,
+    required this.onTapMenuClose,
+    required this.animation,
+    required this.heroTag,
+  });
 
   final GoodsItemEntity item;
   final int index;
@@ -36,13 +37,19 @@ class GoodsItem extends StatelessWidget {
   final VoidCallback onTapDelete;
   final VoidCallback onTapMenuClose;
   final Animation<double> animation;
+  final String heroTag;
   
   @override
   Widget build(BuildContext context) {
     final Row child = Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        ExcludeSemantics(child: LoadImage(item.icon, width: 72.0, height: 72.0)),
+        ExcludeSemantics(
+          child: Hero(
+            tag: heroTag,
+            child: LoadImage(item.icon, width: 72.0, height: 72.0),
+          ),
+        ),
         Gaps.hGap8,
         Expanded(
           child: Column(
@@ -61,7 +68,7 @@ class GoodsItem extends StatelessWidget {
                     visible: item.type % 3 == 0,
                     child: _GoodsItemTag(
                       text: '立减',
-                      color: Theme.of(context).errorColor,
+                      color: Theme.of(context).colorScheme.error,
                     ),
                   ),
                   Opacity(
@@ -87,6 +94,7 @@ class GoodsItem extends StatelessWidget {
               container: true,
               label: '商品操作菜单',
               child: GestureDetector(
+                onTap: onTapMenu,
                 child: Container(
                   key: Key('goods_menu_item_$index'),
                   width: 44.0,
@@ -95,14 +103,13 @@ class GoodsItem extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 28.0, bottom: 28.0),
                   child: const LoadAssetImage('goods/ellipsis'),
                 ),
-                onTap: onTapMenu,
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 10.0),
               child: Text(
                 '特产美味',
-                style: Theme.of(context).textTheme.subtitle2,
+                style: Theme.of(context).textTheme.titleSmall,
               ),
             )
           ],
@@ -137,10 +144,10 @@ class GoodsItem extends StatelessWidget {
       child: AnimatedBuilder(
         animation: animation,
         child: _buildGoodsMenuContent(context),
-        builder:(_, Widget child) {
+        builder: (_, Widget? child) {
           return MenuReveal(
             revealPercent: animation.value,
-            child: child
+            child: child!
           );
         }
       ),
@@ -153,7 +160,7 @@ class GoodsItem extends StatelessWidget {
 
     return InkWell(
       onTap: onTapMenuClose,
-      child: Container(
+      child: ColoredBox(
         color: isDark ? const Color(0xB34D4D4D) : const Color(0x4D000000),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -206,12 +213,11 @@ class GoodsItem extends StatelessWidget {
 class _GoodsItemTag extends StatelessWidget {
   
   const _GoodsItemTag({
-    Key key,
-    this.color,
-    this.text,
-  }): super(key: key);
+    required this.color,
+    required this.text,
+  });
 
-  final Color color;
+  final Color? color;
   final String text;
   
   @override
@@ -227,10 +233,10 @@ class _GoodsItemTag extends StatelessWidget {
       alignment: Alignment.center,
       child: Text(
         text,
-        style: const TextStyle(
+        style: TextStyle(
           color: Colors.white,
           fontSize: Dimens.font_sp10,
-          height: 1.1,
+          height: Device.isAndroid ? 1.1 : null,
         ),
       ),
     );

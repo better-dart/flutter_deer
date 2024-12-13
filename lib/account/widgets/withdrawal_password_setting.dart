@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_deer/res/resources.dart';
 import 'package:flutter_deer/routers/fluro_navigator.dart';
@@ -12,7 +11,7 @@ import 'package:vibration/vibration.dart';
 /// design/6店铺-账户/index.html#artboard13
 class WithdrawalPasswordSetting extends StatefulWidget {
 
-  const WithdrawalPasswordSetting({Key key}) : super(key: key);
+  const WithdrawalPasswordSetting({super.key});
 
   @override
   _WithdrawalPasswordSettingState createState() => _WithdrawalPasswordSettingState();
@@ -77,7 +76,7 @@ class _WithdrawalPasswordSettingState extends State<WithdrawalPasswordSetting> {
                   ),
                 ),
                 Gaps.vGap10,
-                Text('提现密码不可为连续、重复的数字。', style: Theme.of(context).textTheme.subtitle2),
+                Text('提现密码不可为连续、重复的数字。', style: Theme.of(context).textTheme.titleSmall),
               ],
             ),
           ),
@@ -124,11 +123,6 @@ class _WithdrawalPasswordSettingState extends State<WithdrawalPasswordSetting> {
             return;
           }
 
-          /// 点击时给予振动反馈
-          if (!Device.isDesktop && await Vibration.hasVibrator()) {
-            Vibration.vibrate(duration: 10);
-          }
-
           if (index == 11) {
             if (_index == 0) {
               return;
@@ -157,6 +151,11 @@ class _WithdrawalPasswordSettingState extends State<WithdrawalPasswordSetting> {
           setState(() {
 
           });
+
+          /// 点击时给予振动反馈
+          if (!Device.isDesktop && (await Vibration.hasVibrator() ?? false)) {
+            Vibration.vibrate(duration: 10);
+          }
         },
       ),
     );

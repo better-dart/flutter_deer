@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_deer/account/page/account_page.dart';
 import 'package:flutter_deer/account/page/account_record_list_page.dart';
@@ -11,7 +10,7 @@ import 'package:flutter_deer/account/page/withdrawal_page.dart';
 import 'package:flutter_deer/account/page/withdrawal_password_page.dart';
 import 'package:flutter_deer/account/page/withdrawal_record_list_page.dart';
 import 'package:flutter_deer/account/page/withdrawal_result_page.dart';
-import 'package:flutter_deer/provider/theme_provider.dart';
+import 'package:flutter_deer/setting/provider/theme_provider.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -70,7 +69,6 @@ void main() {
 
       map.forEach((name, page) {
         testWidgets('$name $themeName', (WidgetTester tester) async {
-          tester.binding.addTime(const Duration(seconds: 3));
           final SemanticsHandle handle = tester.ensureSemantics();
           await tester.pumpWidget(MaterialApp(theme: theme, home: page));
           await expectLater(tester, meetsGuideline(textContrastGuideline));

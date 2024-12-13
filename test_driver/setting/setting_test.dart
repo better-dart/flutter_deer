@@ -1,3 +1,4 @@
+
 import 'package:flutter_driver/flutter_driver.dart';
 import 'package:test/test.dart';
 
@@ -6,7 +7,7 @@ import '../tools/test_utils.dart';
 void main([List<String> args = const <String>[]]) {
 
   group('设置部分：', () {
-    FlutterDriver driver;
+    late FlutterDriver driver;
 
     setUpAll(() async {
       driver = await FlutterDriver.connect();
@@ -18,7 +19,7 @@ void main([List<String> args = const <String>[]]) {
     });
 
     tearDownAll(() async {
-      await driver?.close();
+      await driver.close();
     });
 
     test('设置页测试',() async {
@@ -51,7 +52,7 @@ void main([List<String> args = const <String>[]]) {
       await driver.tap(find.text('夜间模式'));
       await delayed();
       await driver.tap(find.text('开启'));
-      await Future<dynamic>.delayed(const Duration(seconds: 2));
+      await Future<dynamic>.delayed(const Duration(seconds: 4));
       await driver.tap(find.byTooltip('Back'));
       await delayed();
       // 查看效果
@@ -67,6 +68,7 @@ void main([List<String> args = const <String>[]]) {
         await driver.tap(find.byTooltip('店铺'));
         await delayed();
         await driver.tap(find.byValueKey('setting'));
+        await delayed();
       }
     });
 
@@ -74,7 +76,7 @@ void main([List<String> args = const <String>[]]) {
       await driver.tap(find.text('多语言'));
       await delayed();
       await driver.tap(find.text('English'));
-      await Future<dynamic>.delayed(const Duration(seconds: 1));
+      await Future<dynamic>.delayed(const Duration(seconds: 2));
       await driver.tap(find.byTooltip('Back'));
       await delayed();
 
@@ -93,6 +95,7 @@ void main([List<String> args = const <String>[]]) {
       await driver.tap(find.byTooltip('Back'));
       await delayed();
       await driver.tap(find.byValueKey('noAccountRegister'));
+      await delayed();
     });
   });
 }

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_deer/login/login_router.dart';
 import 'package:flutter_deer/res/styles.dart';
@@ -8,8 +7,8 @@ import 'package:flutter_deer/widgets/base_dialog.dart';
 class ExitDialog extends StatefulWidget {
 
   const ExitDialog({
-    Key key,
-  }) : super(key : key);
+    super.key,
+  });
 
   @override
   _ExitDialog createState() => _ExitDialog();

@@ -1,20 +1,19 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter_deer/util/change_notifier_manage.dart';
+import 'package:flutter_deer/login/widgets/my_text_field.dart';
 import 'package:flutter_deer/res/resources.dart';
 import 'package:flutter_deer/routers/fluro_navigator.dart';
-import 'package:flutter_deer/util/toast_utils.dart';
+import 'package:flutter_deer/util/change_notifier_manage.dart';
 import 'package:flutter_deer/util/other_utils.dart';
+import 'package:flutter_deer/util/toast_utils.dart';
 import 'package:flutter_deer/widgets/my_app_bar.dart';
 import 'package:flutter_deer/widgets/my_button.dart';
 import 'package:flutter_deer/widgets/my_scroll_view.dart';
-import 'package:flutter_deer/login/widgets/my_text_field.dart';
 
 
 /// design/1注册登录/index.html#artboard13
 class UpdatePasswordPage extends StatefulWidget {
 
-  const UpdatePasswordPage({Key key}) : super(key: key);
+  const UpdatePasswordPage({super.key});
 
   @override
   _UpdatePasswordPageState createState() => _UpdatePasswordPageState();
@@ -29,9 +28,9 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> with ChangeNoti
   bool _clickable = false;
 
   @override
-  Map<ChangeNotifier, List<VoidCallback>> changeNotifier() {
+  Map<ChangeNotifier, List<VoidCallback>?>? changeNotifier() {
     final List<VoidCallback> callbacks = <VoidCallback>[_verify];
-    return <ChangeNotifier, List<VoidCallback>>{
+    return <ChangeNotifier, List<VoidCallback>?>{
       _oldPwdController: callbacks,
       _newPwdController: callbacks,
       _nodeText1: null,
@@ -79,14 +78,13 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> with ChangeNoti
           Gaps.vGap8,
           Text(
             '设置账号 15000000000',
-            style: Theme.of(context).textTheme.subtitle2.copyWith(fontSize: Dimens.font_sp12),
+            style: Theme.of(context).textTheme.titleSmall?.copyWith(fontSize: Dimens.font_sp12),
           ),
           Gaps.vGap32,
           MyTextField(
             isInputPwd: true,
             focusNode: _nodeText1,
             controller: _oldPwdController,
-            maxLength: 16,
             keyboardType: TextInputType.visiblePassword,
             hintText: '请确认旧密码',
           ),
@@ -95,7 +93,6 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> with ChangeNoti
             isInputPwd: true,
             focusNode: _nodeText2,
             controller: _newPwdController,
-            maxLength: 16,
             keyboardType: TextInputType.visiblePassword,
             hintText: '请输入新密码',
           ),

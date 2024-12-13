@@ -1,3 +1,4 @@
+
 import 'package:flutter_driver/flutter_driver.dart';
 import 'package:test/test.dart';
 
@@ -6,7 +7,7 @@ import '../tools/test_utils.dart';
 void main() {
 
   group('商品部分：', () {
-    FlutterDriver driver;
+    late FlutterDriver driver;
 
     setUpAll(() async {
       driver = await FlutterDriver.connect();
@@ -18,7 +19,7 @@ void main() {
     });
 
     tearDownAll(() async {
-      await driver?.close();
+      await driver.close();
     });
 
     test('商品页测试',() async {
@@ -27,6 +28,7 @@ void main() {
       await driver.tap(find.text('待售'));
       await delayed();
       final SerializableFinder pageView = find.byValueKey('pageView');
+      await driver.waitFor(pageView);
       await driver.scroll(pageView, 400.0, 0, scrollDuration);
       await delayed();
       
@@ -76,13 +78,15 @@ void main() {
 
     test('商品规格页测试',() async {
       await driver.tap(find.text('商品规格'));
-      await delayed();await delayed();
+      await delayed();
       await driver.tap(find.byValueKey('hint'));
       await delayed();
-      await driver.tap(find.byValueKey('name_edit'));
-      await delayed();
-      await driver.tap(find.text('取消'));
-      await delayed();
+      /// 在集成测试中不能点击特定的TextSpan，这里测试部分放在integration_test/goods_test.dart 实现
+      /// https://github.com/flutter/flutter/issues/67123
+      // await driver.tap(find.byValueKey('name_edit'));
+      // await delayed();
+      // await driver.tap(find.text('取消'));
+      // await delayed();
       await driver.tap(find.byValueKey('2'));
       await delayed();
       await driver.tap(find.byTooltip('Back'));
